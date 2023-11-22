@@ -1,5 +1,5 @@
 import React from 'react';
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@mui/styles';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+// import DeleteIcon from '@mui/icons-material/Delete';
 import ClearIcon from '@mui/icons-material/Clear';
 import MUIDataTable from "mui-datatables";
 import CardTrackingService from '../../services/card.service';
@@ -17,14 +17,6 @@ const styles = () => ({
   root: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginRight: 36,
-  },
-  title: {
-    flexGrow: 1,
-    display: 'block',
-    color: "#fff"
-  },
   modalContent: {
 	position: 'absolute',
 	top: '50%',
@@ -32,12 +24,12 @@ const styles = () => ({
 	transform: 'translate(-50%, -50%)',
 	width: 'calc(80vw)',
 	height: '80vh',
-	bgcolor: 'background.paper',
+	backgroundColor: '#FFFFFF',
 	overflowX: 'hidden',
 	overflowY: 'auto',
 	fontWeight: 500,
   	textAlign: 'start',
-	p: 3,
+	padding: '24px',
   }
 });
 
@@ -133,9 +125,9 @@ class CardTracks extends React.Component {
 							<IconButton aria-label="delete" value={value} data-custom={{tableMeta, updateValue}} row={row} onClick={() => this.handleEdit(row, tableMeta)}>
 								<EditIcon />
 							</IconButton>
-							<IconButton aria-label="delete" value={value} data-custom={{tableMeta, updateValue}} row={row} onClick={() => console.log('delete handler')}>
+							{/* <IconButton aria-label="delete" value={value} data-custom={{tableMeta, updateValue}} row={row} onClick={() => console.log('delete handler')}>
 								<DeleteIcon />
-							</IconButton>
+							</IconButton> */}
 						</>
 					)
 				} };
@@ -159,7 +151,7 @@ class CardTracks extends React.Component {
 	};
 
 	render() {
-		const classes = styles();
+		const classes = this.props.classes;
 		let data = [];
 		let open = this.state.open;
 		let editing = this.state.edit;

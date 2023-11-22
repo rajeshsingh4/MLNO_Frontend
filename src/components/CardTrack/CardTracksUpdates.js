@@ -1,11 +1,17 @@
-import React, { Component, useState, Fragment, useEffect  } from 'react';
-// import CardTrackingService from "../services/card.service";
-// import AddUserForm from './forms/AddUserForm'
-//  import EditUserForm from './forms/EditUserForm'
-import { withStyles } from "@material-ui/core/styles";
-import { AppBar, Toolbar, Typography, Button, IconButton, Modal } from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
+import React from 'react';
+import { withStyles } from '@mui/styles';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Unstable_Grid2';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ClearIcon from '@mui/icons-material/Clear';
 import MUIDataTable from "mui-datatables";
+import CardTrackingService from '../../services/card.service';
 
 const styles = () => ({
   root: {
@@ -19,27 +25,35 @@ const styles = () => ({
     display: 'block',
     color: "#fff"
   },
+  modalContent: {
+	position: 'absolute',
+	top: '50%',
+	left: '50%',
+	transform: 'translate(-50%, -50%)',
+	width: 'calc(80vw)',
+	height: '80vh',
+	bgcolor: 'background.paper',
+	overflowX: 'hidden',
+	overflowY: 'auto',
+	fontWeight: 500,
+  	textAlign: 'start',
+	p: 3,
+  }
 });
 
-class CardTracksUpdates extends React.Component {
+class CardTracks extends React.Component {
 
 	constructor (props) {
 		super(props);
-	  
-		this.open = false;
-		this.state = { open: false, edit: false };	
+		this.state = { open: false, edit: false, formData: null };
 		this.array = [];
-		this.currentUser = [];
-		this.editing = false;
+		this.fieldNameMapping = { id: 'trackingId', Field_1: 'TestRajesh', Field_2: 'Pankajfld' };
 	}
 
 	loadContentFromServer() {
-		const url = 'http://localhost:8080/api/cardtrack/all';
-      
-		fetch(url)
-		.then(response => response.json())
-		.then(json => {
-		 this.setState({ results: json });
+		CardTrackingService.getCardTrackingList()
+		.then(response => {
+		 	this.setState({ results: response.data });
 		});
 	}
 	
@@ -47,26 +61,110 @@ class CardTracksUpdates extends React.Component {
 		this.loadContentFromServer();
 	}
 
+	updateFormData = (e) => {
+		const name = e.target.name;
+		const value = e.target.value;
+		const formData = this.state.formData;
+		this.setState({
+			...this.state,
+			formData: {
+				...formData,
+				[name]: value
+			}
+		});
+	}
+
+	createFormElement = () => {
+		let hiddenElements = ['id', 'createdAt', 'updatedAt'];
+		const formData = this.state.formData;
+		let listElements = Object.keys(formData);
+		let formElements = [];
+
+		listElements.forEach((key, i) => {
+			let basicAttributesOfElement = {
+				id: `${key}_${i}_edit_item`,
+				name: key,
+				label: key,
+				placeholder: key,
+				value: formData[key],
+				onChange: (e) => this.updateFormData(e),
+				type: typeof formData[key] === 'number' ? 'number' : 'text',
+				'aria-label': key,
+				fullWidth: true,
+				size: 'medium'
+			}
+			if (!hiddenElements.includes(key)) {
+				formElements.push(
+					<Grid key={i} xs={12} sm={6} md={4}>
+						<TextField
+							{...basicAttributesOfElement}
+						/>
+					</Grid>
+				);
+			}
+		})
+		return formElements;
+	}
+
+	handleEdit = (row, tableMeta) => {
+		this.setState({
+			open: true,
+			edit: true,
+			formData: {...row}
+		})
+	}
+
+	getColumnMapping = (row) =>{
+		let fieldList=[];
+		let listKey=  Object.keys(row);
+		
+	   listKey.forEach((key, i)=> {
+			let baseFieldObj = { name: listKey[i], options: { filter: true } };
+			if(this.fieldNameMapping.hasOwnProperty(key)) {
+				baseFieldObj.label = this.fieldNameMapping[key];
+			}
+			fieldList.push(baseFieldObj);
+			if (i === (listKey.length - 1)) {
+				baseFieldObj = { name: 'Actions', label: 'Actions', options: { 
+					filter: false,
+					sort: false,
+					customBodyRender: (value, tableMeta, updateValue) => (
+						<>
+							<IconButton aria-label="delete" value={value} data-custom={{tableMeta, updateValue}} row={row} onClick={() => this.handleEdit(row, tableMeta)}>
+								<EditIcon />
+							</IconButton>
+							<IconButton aria-label="delete" value={value} data-custom={{tableMeta, updateValue}} row={row} onClick={() => console.log('delete handler')}>
+								<DeleteIcon />
+							</IconButton>
+						</>
+					)
+				} };
+				fieldList.push(baseFieldObj);
+			}
+		})
+		return fieldList;
+	}
+
+	handleUpdate = (e) => {
+		e.preventDefault();
+		console.log('submit hanlder', this.state.formData)
+	}
+
+	handleOpen = () => {
+		this.setState({ open: true });
+	};
+
+	handleClose = () => {
+		this.setState({ open: false, edit: false, formData: null });
+	};
+
 	render() {
 		const classes = styles();
-		const array = this.array;
-		var data = [];
-		var open = false;
-		var editing = false;
-		var currentUser = [];
+		let data = [];
+		let open = this.state.open;
+		let editing = this.state.edit;
+		const formData = this.state.formData;
         let columns = [];
-
-        const fieldNameMapping = {"id":"trackingId","Field_1":"TestRajesh","Field_2":"Pankajfld"}
-		
-		const handleOpen = () => {
-			this.setState({ open: true });
-		};
-		
-		const handleClose = () => {
-			this.setState({ open: false });
-		};
-		
-		open = this.state.open;
 		
 		if(!!this.state.results) {
 			this.array = this.state.results;
@@ -78,100 +176,50 @@ class CardTracksUpdates extends React.Component {
 			data = this.array;
 		}
 
-        const getColumnMapping = (row) =>{
-            let fieldList=[];
-            let listKey=  Object.keys(row);
-            let baseFieldObj={};
-            
-           listKey.forEach((key, i)=>{
-                // obj[ele] = arr2[i]
-                baseFieldObj = {"name":listKey[i],options: {filter: true}};
-                if(fieldNameMapping.hasOwnProperty(key)){
-                    baseFieldObj['label'] = fieldNameMapping[key];
-                }
-                fieldList.push(baseFieldObj);
-            })
-            return fieldList;
-            
+        if(data && data.length>0) {
+            columns =  this.getColumnMapping(data[0])
         }
-		
-        console.log("====== Data ==== ");
-        console.log(data);
-        if(data && data.length>0){
-            columns =  getColumnMapping(data[0])
-        }
-            
-		// CRUD operations
-		const addUser = user => {
-			user.id = data.length + 1;
-			const addUser = [user.id, user.name, user.username, user.email, ''];
-			this.setState({ array: data.concat([addUser]) });
-			handleClose();
-		};
-		
-		const addButton = () => {
-			this.setState({ edit: false });
-			handleOpen();
-		};
-		
-		const deleteUser = id => {
-			this.setState({ edit: false });
-			this.setState({ array: data.filter(user => user.id !== id) });
-		};
-		
-		const updateUser = (id, updatedUser) => {
-			this.setState({ edit: false });
-			const editUser = [updatedUser.id, updatedUser.name, updatedUser.username, updatedUser.email, ''];
-			this.setState({ array: data.map(user => (user[0] === id ? editUser : user)) });
-			handleClose();
-		};
-		
-		const editButton = user => {
-			this.setState({ edit: true });
-			this.setState({ arrayEdit: {id: user[0], name: user[1], username: user[2], email: user[3], acao: ''} });
-			handleOpen();
-		};
-		
-		editing = this.state.edit;
-		currentUser = this.state.arrayEdit;
-		
+
 		const options = {
 		  filter: true,
-		  filterType: "dropdown",
-		  responsive: ""
+		  fixedHeader: true,
+		  filterType: 'dropdown',
+		  responsive: 'standard'
 		};
 		
 		return (
 			<div className={classes.root}>
-			
-				
 				<MUIDataTable
-				title={"Track Cards"}
-				data={data}
-				columns={columns}
-				options={options}
-				
+					title={"Track Cards"}
+					data={data}
+					columns={columns}
+					options={options}
 				/>
-				
 				<Modal
-					aria-labelledby="simple-modal-title"
-					aria-describedby="simple-modal-description"
+					id='edit-track-card-item'
+					aria-labelledby="track-card-item"
+					aria-describedby="track-card-item-description"
 					open={open}
-					onClose={handleClose}
+					onClose={this.handleClose}
 				>
-					<div className="modal">
-						
-							<Fragment>
-								<h2 id="simple-modal-title">iRajesh</h2>
-								<div id="simple-modal-description">
-									<div>Modal add</div>
-								</div>
-							</Fragment>
-						
-					</div>
+					<Box className={classes.modalContent}>
+						<Typography id="modal-modal-title" variant="h6" component="h2" sx={{display: 'flex', justifyContent: 'space-between'}}>
+							Edit { (editing && formData) && formData.Product}
+							<IconButton id='close-edit-item' onClick={this.handleClose}><ClearIcon /></IconButton>
+						</Typography>
+						<Box component="form" id="card-form-container" noValidate autoComplete="off" sx={{ mt: 2, mb: 1 }}>
+							<Grid container spacing={3} id="card-form-element-container">
+								{(editing && formData) && this.createFormElement()}
+							</Grid>
+							<Grid container spacing={3} sx={{ mt: 2 }} justifyContent='end'>
+								<Button type='submit' id='card-form-close-button' onClick={this.handleClose} variant="outlined" sx={{ mr: 1 }}>Close</Button>
+								<Button type='submit' id='card-form-submit-button' onClick={(e) => this.handleUpdate(e)} variant="contained">Update</Button>
+							</Grid>
+						</Box>
+					</Box>
 				</Modal>
 			</div>
 		);
 	}
 }
-export default withStyles(styles)(CardTracksUpdates);
+export default withStyles(styles)(CardTracks);
