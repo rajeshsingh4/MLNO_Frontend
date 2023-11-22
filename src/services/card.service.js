@@ -1,10 +1,10 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:8080/api/cardtrack/";
+const CARD_URL = `${process.env.REACT_APP_URL}/api/cardtrack/`;
 
 const getCardTrackingList = () => {
-  return axios.get(API_URL + "all");
+  return axios.get(CARD_URL + "all");
 };
 
 const CardTrackingService = {
