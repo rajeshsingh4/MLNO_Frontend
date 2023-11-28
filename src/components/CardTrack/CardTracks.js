@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@mui/styles';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -12,43 +13,48 @@ import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
 import MUIDataTable from "mui-datatables";
 import CardTrackingService from '../../services/card.service';
+import CardActivity from './CardActivity';
 
 const styles = () => ({
-  root: {
-    flexGrow: 1,
-  },
-  modalContent: {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: 'calc(80vw)',
-	height: '80vh',
-	backgroundColor: '#FFFFFF',
-	overflowX: 'hidden',
-	overflowY: 'auto',
-	fontWeight: 500,
-  	textAlign: 'start',
-	padding: '24px',
-  }
+	root: {
+		flexGrow: 1,
+	},
+	modalContent: {
+		position: 'absolute',
+		top: '50%',
+		left: '50%',
+		transform: 'translate(-50%, -50%)',
+		width: 'calc(80vw)',
+		height: '80vh',
+		backgroundColor: '#FFFFFF',
+		overflowX: 'hidden',
+		overflowY: 'auto',
+		fontWeight: 500,
+		textAlign: 'start',
+		padding: '24px'
+	},
+	linkItem: {
+		cursor: 'pointer',
+		width: '100%'
+	}
 });
 
 class CardTracks extends React.Component {
 
-	constructor (props) {
+	constructor(props) {
 		super(props);
-		this.state = { open: false, edit: false, formData: null };
+		this.state = { openModal: false, edit: false, formData: null, openDrawer: false, cardId: null };
 		this.array = [];
 		this.fieldNameMapping = { id: 'trackingId', Field_1: 'TestRajesh', Field_2: 'Pankajfld' };
 	}
 
 	loadContentFromServer() {
 		CardTrackingService.getCardTrackingList()
-		.then(response => {
-		 	this.setState({ results: response.data });
-		});
+			.then(response => {
+				this.setState({ results: response.data });
+			});
 	}
-	
+
 	componentDidMount() {
 		this.loadContentFromServer();
 	}
@@ -100,37 +106,45 @@ class CardTracks extends React.Component {
 
 	handleEdit = (row, tableMeta) => {
 		this.setState({
-			open: true,
+			cardId: row.id,
+			openModal: true,
 			edit: true,
-			formData: {...row}
+			formData: { ...row }
 		})
 	}
 
-	getColumnMapping = (row) =>{
-		let fieldList=[];
-		let listKey=  Object.keys(row);
-		
-	   listKey.forEach((key, i)=> {
+	getColumnMapping = (row) => {
+		let fieldList = [];
+		let listKey = Object.keys(row);
+
+		listKey.forEach((key, i) => {
 			let baseFieldObj = { name: listKey[i], options: { filter: true } };
-			if(this.fieldNameMapping.hasOwnProperty(key)) {
+			if (this.fieldNameMapping.hasOwnProperty(key)) {
 				baseFieldObj.label = this.fieldNameMapping[key];
+			}
+			if (listKey[i] === 'id') {
+				baseFieldObj.options.customBodyRender = (value, tableMeta, updateValue) => (
+					<Button className={this.props.classes.linkItem} variant="text" onClick={() => this.toggleDrawer(value, true)}>{value}</Button>
+				)
 			}
 			fieldList.push(baseFieldObj);
 			if (i === (listKey.length - 1)) {
-				baseFieldObj = { name: 'Actions', label: 'Actions', options: { 
-					filter: false,
-					sort: false,
-					customBodyRender: (value, tableMeta, updateValue) => (
-						<>
-							<IconButton aria-label="delete" value={value} data-custom={{tableMeta, updateValue}} row={row} onClick={() => this.handleEdit(row, tableMeta)}>
-								<EditIcon />
-							</IconButton>
-							{/* <IconButton aria-label="delete" value={value} data-custom={{tableMeta, updateValue}} row={row} onClick={() => console.log('delete handler')}>
+				baseFieldObj = {
+					name: 'Actions', label: 'Actions', options: {
+						filter: false,
+						sort: false,
+						customBodyRender: (value, tableMeta, updateValue) => (
+							<>
+								<IconButton aria-label="delete" value={value} data-custom={{ tableMeta, updateValue }} row={row} onClick={() => this.handleEdit(row, tableMeta)}>
+									<EditIcon />
+								</IconButton>
+								{/* <IconButton aria-label="delete" value={value} data-custom={{tableMeta, updateValue}} row={row} onClick={() => console.log('delete handler')}>
 								<DeleteIcon />
 							</IconButton> */}
-						</>
-					)
-				} };
+							</>
+						)
+					}
+				};
 				fieldList.push(baseFieldObj);
 			}
 		})
@@ -143,42 +157,45 @@ class CardTracks extends React.Component {
 	}
 
 	handleOpen = () => {
-		this.setState({ open: true });
+		this.setState({ openModal: true });
 	};
 
 	handleClose = () => {
-		this.setState({ open: false, edit: false, formData: null });
+		this.setState({ openModal: false, edit: false, formData: null, cardId: null });
+	};
+
+	toggleDrawer = (id, open) => {
+		this.setState({ ...this.state, cardId: id, openDrawer: open });
 	};
 
 	render() {
 		const classes = this.props.classes;
 		let data = [];
-		let open = this.state.open;
 		let editing = this.state.edit;
 		const formData = this.state.formData;
-        let columns = [];
-		
-		if(!!this.state.results) {
+		let columns = [];
+
+		if (!!this.state.results) {
 			this.array = this.state.results;
 		}
-		
-		if(!!this.state.array) {
+
+		if (!!this.state.array) {
 			data = this.state.array;
 		} else {
 			data = this.array;
 		}
 
-        if(data && data.length>0) {
-            columns =  this.getColumnMapping(data[0])
-        }
+		if (data && data.length > 0) {
+			columns = this.getColumnMapping(data[0])
+		}
 
 		const options = {
-		  filter: true,
-		  fixedHeader: true,
-		  filterType: 'dropdown',
-		  responsive: 'standard'
+			filter: true,
+			fixedHeader: true,
+			filterType: 'dropdown',
+			responsive: 'standard'
 		};
-		
+
 		return (
 			<div className={classes.root}>
 				<MUIDataTable
@@ -187,16 +204,23 @@ class CardTracks extends React.Component {
 					columns={columns}
 					options={options}
 				/>
+				<Drawer
+					anchor='right'
+					open={this.state.openDrawer}
+					onClose={() => this.toggleDrawer(null, false)}
+				>
+					<Box><CardActivity toggleDrawer={this.toggleDrawer} id={this.state.cardId} /></Box>
+				</Drawer>
 				<Modal
 					id='edit-track-card-item'
 					aria-labelledby="track-card-item"
 					aria-describedby="track-card-item-description"
-					open={open}
+					open={this.state.openModal}
 					onClose={this.handleClose}
 				>
 					<Box className={classes.modalContent}>
-						<Typography id="modal-modal-title" variant="h6" component="h2" sx={{display: 'flex', justifyContent: 'space-between'}}>
-							Edit { (editing && formData) && formData.Product}
+						<Typography id="modal-modal-title" variant="h6" component="h2" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+							Edit {(editing && formData) && formData.Product}
 							<IconButton id='close-edit-item' onClick={this.handleClose}><ClearIcon /></IconButton>
 						</Typography>
 						<Box component="form" id="card-form-container" noValidate autoComplete="off" sx={{ mt: 2, mb: 1 }}>
