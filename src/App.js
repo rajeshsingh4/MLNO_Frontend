@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
 import AuthService from "./services/auth.service";
-
+import Header from './components/MenuBar/Header';
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
@@ -13,7 +12,9 @@ import BoardUser from "./components/BoardUser";
 import BoardModerator from "./components/BoardModerator";
 import BoardAdmin from "./components/BoardAdmin";
 import CardTracks from "./components/CardTrack/CardTracks";
+import CardTracksUpdates from "./components/CardTrack/CardTracksUpdates";
 import DashBoard from "./components/DashBoard/DashBoard"
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 import EventBus from "./common/EventBus";
 
@@ -48,8 +49,8 @@ const App = () => {
   };
 
   return (
-    <div>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
+    <>
+      {/* <nav className="navbar navbar-expand navbar-dark bg-dark">
         <Link to={"/"} className="navbar-brand">
           MLNO - PARSPR
         </Link>
@@ -132,26 +133,23 @@ const App = () => {
             </li>
           </div>
         )}
-      </nav>
-
-      <div className="container mt-3">
-        <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path="/home" element={<Home/>} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/register" element={<Register/>} />
+      </nav> */}
+      <Routes>
+        <Route path="/login" element={<Login/>} />
+        <Route path="/register" element={<Register/>} />
+        <Route path='/' errorElement={<ErrorBoundary />} element={<Header />}>
+          <Route path="/home" index={true} element={<Home/>} />
+          <Route path="/cardtrack" element={<CardTracks/>} />
+          <Route path="/cardtrackUpdates" element={<CardTracksUpdates />} />
+          <Route path="/dashboard" element={<DashBoard/>} />
           <Route path="/profile" element={<Profile/>} />
+          <Route path="/admin" element={<BoardAdmin/>} />
           <Route path="/user" element={<BoardUser/>} />
           <Route path="/mod" element={<BoardModerator/>} />
-          <Route path="/admin" element={<BoardAdmin/>} />
-          <Route path="/cardtrack" element={<CardTracks/>} />
-          <Route path="/dashboard" element={<DashBoard/>} />
-          
-          
-        </Routes>
-      </div>
-
-    </div>
+        </Route>
+        <Route path="*" element={<h1>Not Found</h1>} />
+      </Routes>
+    </>
   );
 };
 

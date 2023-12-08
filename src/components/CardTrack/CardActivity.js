@@ -9,7 +9,7 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
-import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
+import TimelineOppositeContent, { timelineOppositeContentClasses } from "@mui/lab/TimelineOppositeContent";
 import Typography from '@mui/material/Typography';
 import AuditLogService from "../../services/auditlog.service";
 import { getJSONDiffValue } from "../../common/util";
@@ -70,7 +70,11 @@ export default function CardActivity(props) {
     }
 
     return (
-        <Timeline position="right">
+        <Timeline position="right"  sx={{
+            [`& .${timelineOppositeContentClasses.root}`]: {
+              flex: 0.5,
+            },
+          }}>
             {
                 (cardActivityLogs && cardActivityLogs.length > 0) && cardActivityLogs.map((logs, i) => {
                     const diffValues = getJSONDiffValue(JSON.parse(logs.previous), JSON.parse(logs.current));
@@ -79,7 +83,7 @@ export default function CardActivity(props) {
                     return (
                         <TimelineItem key={i}>
                             <TimelineOppositeContent color="text.secondary">
-                                {new Date(logs.createdAt).toTimeString()}
+                                {new Date(logs.createdAt).toLocaleString()}
                             </TimelineOppositeContent>
                             <TimelineSeparator>
                                 <TimelineDot />

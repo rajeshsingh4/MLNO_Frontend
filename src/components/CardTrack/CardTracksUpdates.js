@@ -41,7 +41,7 @@ const styles = () => ({
   }
 });
 
-class CardTracks extends React.Component {
+class CardTracksUpdates extends React.Component {
 
 	constructor (props) {
 		super(props);
@@ -222,4 +222,4 @@ class CardTracks extends React.Component {
 		);
 	}
 }
-export default withStyles(styles)(CardTracks);
+export default withStyles(styles)(CardTracksUpdates);
