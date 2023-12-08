@@ -154,6 +154,11 @@ class CardTracks extends React.Component {
 	handleUpdate = (e) => {
 		e.preventDefault();
 		console.log('submit hanlder', this.state.formData)
+		CardTrackingService.updateCardTrackingList(this.state.formData.id, this.state.formData).then(resp => {
+			console.log('Data updated successfully');
+			this.handleClose();
+			this.loadContentFromServer();
+		});
 	}
 
 	handleOpen = () => {

@@ -7,8 +7,13 @@ const getCardTrackingList = () => {
   return axios.get(CARD_URL + "all");
 };
 
+const updateCardTrackingList = (id, data) => {
+  return axios.put(CARD_URL + id, data);
+};
+
 const CardTrackingService = {
-  getCardTrackingList
+  getCardTrackingList,
+  updateCardTrackingList
 };
 
 export default CardTrackingService;
