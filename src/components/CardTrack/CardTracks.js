@@ -43,20 +43,16 @@ class CardTracks extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { openModal: false, edit: false, formData: null, openDrawer: false, cardId: null };
+		this.state = { results: props.fileDetails.cards, openModal: false, edit: false, formData: null, openDrawer: false, cardId: null };
 		this.array = [];
 		this.fieldNameMapping = { id: 'trackingId', Field_1: 'TestRajesh', Field_2: 'Pankajfld' };
 	}
 
 	loadContentFromServer() {
-		CardTrackingService.getCardTrackingList()
+		CardTrackingService.getCardTrackingList(this.props.fileDetails.id)
 			.then(response => {
-				this.setState({ results: response.data });
+				this.setState({ results: response.data.cards });
 			});
-	}
-
-	componentDidMount() {
-		this.loadContentFromServer();
 	}
 
 	updateFormData = (e) => {
@@ -173,6 +169,10 @@ class CardTracks extends React.Component {
 		this.setState({ ...this.state, cardId: id, openDrawer: open });
 	};
 
+	goBackToFiles = () => {
+		this.props.navigate('files');
+	}
+
 	render() {
 		const classes = this.props.classes;
 		let data = [];
@@ -203,12 +203,17 @@ class CardTracks extends React.Component {
 
 		return (
 			<div className={classes.root}>
-				<MUIDataTable
-					title={"Track Cards"}
-					data={data}
-					columns={columns}
-					options={options}
-				/>
+				<Box>
+					<div>
+						<Button sx={{ mb: 2 }} variant="outlined" onClick={this.goBackToFiles}>Go Back</Button>
+					</div>
+					<MUIDataTable
+						title={"Track Cards"}
+						data={data}
+						columns={columns}
+						options={options}
+					/>
+				</Box>
 				<Drawer
 					anchor='right'
 					open={this.state.openDrawer}

@@ -194,22 +194,22 @@ export default function Header() {
                 <AssessmentIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Card Track">
+            <Tooltip title="File Wise Tracking">
               <IconButton
                 size="large"
-                aria-label="Card track"
+                aria-label="File Wise Tracking"
                 color="inherit"
-                LinkComponent={Link} to={'/cardtrack'}
+                LinkComponent={Link} to={'/files'}
               >
                 <CreditCardIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Card updates">
+            <Tooltip title="File TAT Report">
               <IconButton
                 size="large"
-                aria-label="card updates"
+                aria-label="File TAT Report"
                 color="inherit"
-                LinkComponent={Link} to={'/cardtrackUpdates'}
+                LinkComponent={Link} to={'/file-tat-report'}
               >
                 <RedeemIcon />
               </IconButton>
@@ -228,7 +228,7 @@ export default function Header() {
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
+      {/* {renderMobileMenu} */}
       {renderProfileMenu}
       <Box component='main' sx={{ p: 3 }}>
         <Outlet />
