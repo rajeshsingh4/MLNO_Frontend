@@ -15,14 +15,7 @@ export const  FileTATReport = () => {
         try {
             const fileTATDetails = await FileMasterListService.getFileMasterList();
             // adding 5 temp columns - total cards count, bureau within tat, bureau outside tat, courier within tat, courier outside tat
-            fileTATDetails.data.map(file => {
-                file.totalCards = file.cards.length;
-                file.bureauwithintat = 1;
-                file.bureauoutsidetat = 1;
-                file.courierwithintat = 1;
-                file.courieroutsidetat = 1;
-                return file;
-            });
+           
             setFileList(fileTATDetails.data);
         } catch (err) {
             console.error("Error fetching list of activity logs ", err);
