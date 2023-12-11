@@ -1,14 +1,19 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import ClearIcon from '@mui/icons-material/Clear';
+import IconButton from '@mui/material/IconButton';
 import FileMasterListService from '../../services/files.services';
-import { useNavigate } from "react-router-dom";
+import { FileTATReportCardDetails } from './FileTATReportCardDetails';
 
 export const  FileTATReport = () => {
     const [fileTatLoader, setFileListLoader] = React.useState(false);
     const [fileTatError, setFileListError] = React.useState(false);
     const [fileTatReport, setFileList] = React.useState([]);
-    const navigate = useNavigate();
+    const [tatCardDetails, setTATCardDetails] = React.useState(null);
 
     const getFileTATReports = async () => {
         setFileListLoader(true);
@@ -39,9 +44,12 @@ export const  FileTATReport = () => {
         return <>Error Loading Report, Please try again!!</>
     }
 
-    const viewFileDetails = (fileId, cardData) => {
-        console.log(fileId, cardData);
-        navigate(`/files/${fileId}`, { state: cardData });
+    const showTATDetailsReport = (type, fileId, cardData) => {
+        setTATCardDetails({ type: type, fileId: fileId, cardData: cardData });
+    }
+
+    const hideTATDetailsReport = () => {
+        setTATCardDetails(null);
     }
 
     const getColumnMapping = (row) => {
@@ -49,7 +57,7 @@ export const  FileTATReport = () => {
             return [];
         }
         let columns = [];
-        const hiddenColumns = ['id', 'CutOffTime', 'FileUploadTime', 'cards', 'createdAt', 'updatedAt', 'FileAttribute'];
+        const hiddenColumns = ['id', 'BureauName', 'CutOffTime', 'FileUploadTime', 'cards', 'createdAt', 'updatedAt', 'FileAttribute'];
         const rowFieldKeys = Object.keys(row);
         rowFieldKeys.forEach(key => {
             const basicColumnFields = {
@@ -76,18 +84,22 @@ export const  FileTATReport = () => {
             if (key === 'bureauwithintat') {
                 basicColumnFields.headerName = 'Bureau within TAT';
                 basicColumnFields.description = 'Bureau within TAT';
+                basicColumnFields.renderCell = (params) => <Button variant="contained" onClick={() => showTATDetailsReport('bureauwithintat', params.row.id, params.row.cards)} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.bureauwithintat}</Button>
             }
             if (key === 'bureauoutsidetat') {
                 basicColumnFields.headerName = 'Bureau outside TAT';
                 basicColumnFields.description = 'Bureau outside TAT';
+                basicColumnFields.renderCell = (params) => <Button variant="contained" onClick={() => showTATDetailsReport('bureauoutsidetat', params.row.id, params.row.cards)} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.bureauoutsidetat}</Button>
             }
             if (key === 'courierwithintat') {
                 basicColumnFields.headerName = 'Courier within TAT';
                 basicColumnFields.description = 'Courier within TAT';
+                basicColumnFields.renderCell = (params) => <Button variant="contained" onClick={() => showTATDetailsReport('courierwithintat', params.row.id, params.row.cards)} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.courierwithintat}</Button>
             }
             if (key === 'courieroutsidetat') {
                 basicColumnFields.headerName = 'Courier outside TAT';
                 basicColumnFields.description = 'Courier outside TAT';
+                basicColumnFields.renderCell = (params) => <Button variant="contained" onClick={() => showTATDetailsReport('courieroutsidetat', params.row.id, params.row.cards)} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.courieroutsidetat}</Button>
             }
             // if (key === 'cards') {
             //     basicColumnFields.headerName = 'Action';
@@ -100,6 +112,21 @@ export const  FileTATReport = () => {
             }
         });
         return columns;
+    }
+
+    const getModalName = () => {
+        if (!tatCardDetails) {
+            return '';
+        }
+        let modalName = 'Bureau within TAT';
+        if (tatCardDetails.type === 'bureauoutsidetat') {
+            modalName = 'Bureau outside TAT';
+        } else if (tatCardDetails.type === 'courierwithintat') {
+            modalName = 'Courier within TAT';
+        } else if (tatCardDetails.type === 'courieroutsidetat') {
+            modalName = 'Courier outside TAT';
+        }
+        return modalName;
     }
 
   return (
@@ -116,6 +143,38 @@ export const  FileTATReport = () => {
         pageSizeOptions={[5, 10, 20, 50]}
         // checkboxSelection
       />
+      <Modal
+            id='edit-track-card-item'
+            aria-labelledby="track-card-item"
+            aria-describedby="track-card-item-description"
+            open={tatCardDetails !== null}
+            onClose={hideTATDetailsReport}
+        >
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 'calc(80vw)',
+                    height: '80vh',
+                    backgroundColor: '#FFFFFF',
+                    overflowX: 'hidden',
+                    overflowY: 'auto',
+                    fontWeight: 500,
+                    textAlign: 'start',
+                    padding: '24px'
+                }}
+            >
+                <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    {getModalName()} Details
+                    <IconButton id='close-edit-item' onClick={hideTATDetailsReport}><ClearIcon /></IconButton>
+                </Typography>
+                <Box component="form" id="card-form-container" noValidate autoComplete="off" sx={{ mt: 2, mb: 1 }}>
+                    <FileTATReportCardDetails details={tatCardDetails} />
+                </Box>
+            </Box>
+        </Modal>
     </div>
   );
 }
