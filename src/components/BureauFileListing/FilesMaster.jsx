@@ -16,7 +16,7 @@ export const  FilesMaster = () => {
             const fileMasterDetails = await FileMasterListService.getFileMasterList();
             setFileList(fileMasterDetails.data);
         } catch (err) {
-            console.error("Error fetching list of activity logs ", err);
+            console.error("Error fetching list of files ", err);
             setFileListError(true);
         } finally {
             setFileListLoader(false);

@@ -4,28 +4,35 @@ import { CDBContainer } from 'cdbreact';
 import { ArcElement } from "chart.js";
 import Chart from "chart.js/auto";
 Chart.register(ArcElement)
-const ChartPie = () => {
+const ChartPie = (props) => {
+
+  const createTATData = () => {
+    let outsideTAT = 0, withinTAT = 0;
+    props.files.forEach(file => {
+      outsideTAT += file.bureauoutsidetat;
+      withinTAT += file.bureauwithintat;
+    })
+    return [outsideTAT, withinTAT];
+  }
+
   const [data] = useState({
-    labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
-    datasets: [
-      {
-        label: 'My First dataset',
-        backgroundColor: 'rgba(194, 116, 161, 0.5)',
-        borderColor: 'rgb(194, 116, 161)',
-        data: [65, 59, 90, 81, 56, 55, 40],
-      },
-      {
-        label: 'My Second dataset',
-        backgroundColor: 'rgba(71, 225, 167, 0.5)',
-        borderColor: 'rgb(71, 225, 167)',
-        data: [28, 48, 40, 19, 96, 27, 100],
-      },
+    labels: [
+      'OutSideTAT',
+      'WithinTAT',
     ],
+    datasets: [{
+      data: createTATData(),
+      backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)'
+      ],
+      hoverOffset: 4
+    }]
   });
 
   return (
     <CDBContainer>
-      <h3 className="mt-5">Pie chart</h3>
+      <h3 className="mt-5">{props.bureau.name}</h3>
       <Pie data={data} options={{ responsive: true }} />
     </CDBContainer>
   );
