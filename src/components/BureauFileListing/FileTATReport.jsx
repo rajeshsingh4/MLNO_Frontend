@@ -9,6 +9,24 @@ import IconButton from '@mui/material/IconButton';
 import FileMasterListService from '../../services/files.services';
 import { FileTATReportCardDetails } from './FileTATReportCardDetails';
 
+import {
+    createTheme,
+    PaletteColorOptions,
+    ThemeProvider,
+  } from '@mui/material/styles';
+
+  const { palette } = createTheme();
+  const { augmentColor } = palette;
+  const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
+  const theme = createTheme({
+    palette: {
+      anger: createColor('#F40B27'),
+      apple: createColor('#5DBA40'),
+      steelBlue: createColor('#5C76B7'),
+      violet: createColor('#BC00A3'),
+    },
+  });
+
 export const  FileTATReport = () => {
     const [fileTatLoader, setFileListLoader] = React.useState(false);
     const [fileTatError, setFileListError] = React.useState(false);
@@ -45,6 +63,9 @@ export const  FileTATReport = () => {
     }
 
     const showTATDetailsReport = (type, fileId, cardData) => {
+        console.log("- type ->",type);
+        console.log("- fileId ->",fileId);
+        console.log("- cardData ->",cardData);
         setTATCardDetails({ type: type, fileId: fileId, cardData: cardData });
     }
 
@@ -84,22 +105,22 @@ export const  FileTATReport = () => {
             if (key === 'bureauwithintat') {
                 basicColumnFields.headerName = 'Bureau within TAT';
                 basicColumnFields.description = 'Bureau within TAT';
-                basicColumnFields.renderCell = (params) => <Button variant="contained" onClick={() => showTATDetailsReport('bureauwithintat', params.row.id, params.row.cards)} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.bureauwithintat}</Button>
+                basicColumnFields.renderCell = (params) => <Button variant="contained" color="apple"  onClick={() => showTATDetailsReport('bureauwithintat', params.row.id, params.row['bureauwithintat_listData'])} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.bureauwithintat}</Button>
             }
             if (key === 'bureauoutsidetat') {
                 basicColumnFields.headerName = 'Bureau outside TAT';
                 basicColumnFields.description = 'Bureau outside TAT';
-                basicColumnFields.renderCell = (params) => <Button variant="contained" onClick={() => showTATDetailsReport('bureauoutsidetat', params.row.id, params.row.cards)} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.bureauoutsidetat}</Button>
+                basicColumnFields.renderCell = (params) => <Button variant="contained" onClick={() => showTATDetailsReport('bureauoutsidetat', params.row.id, params.row['bureauoutsidetat_listData'])} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.bureauoutsidetat}</Button>
             }
             if (key === 'courierwithintat') {
                 basicColumnFields.headerName = 'Courier within TAT';
                 basicColumnFields.description = 'Courier within TAT';
-                basicColumnFields.renderCell = (params) => <Button variant="contained" onClick={() => showTATDetailsReport('courierwithintat', params.row.id, params.row.cards)} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.courierwithintat}</Button>
+                basicColumnFields.renderCell = (params) => <Button variant="contained" onClick={() => showTATDetailsReport('courierwithintat', params.row.id, params.row['courierwithintat_listData'])} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.courierwithintat}</Button>
             }
             if (key === 'courieroutsidetat') {
                 basicColumnFields.headerName = 'Courier outside TAT';
                 basicColumnFields.description = 'Courier outside TAT';
-                basicColumnFields.renderCell = (params) => <Button variant="contained" onClick={() => showTATDetailsReport('courieroutsidetat', params.row.id, params.row.cards)} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.courieroutsidetat}</Button>
+                basicColumnFields.renderCell = (params) => <Button variant="contained" onClick={() => showTATDetailsReport('courieroutsidetat', params.row.id, params.row['courieroutsidetat_listData'])} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.courieroutsidetat}</Button>
             }
             // if (key === 'cards') {
             //     basicColumnFields.headerName = 'Action';
@@ -131,6 +152,7 @@ export const  FileTATReport = () => {
 
   return (
     <div style={{ height: 400, width: '100%' }}>
+        <ThemeProvider theme={theme}>
       <DataGrid
         loading={fileTatLoader}
         rows={fileTatReport}
@@ -175,6 +197,7 @@ export const  FileTATReport = () => {
                 </Box>
             </Box>
         </Modal>
+        </ThemeProvider>
     </div>
   );
 }
