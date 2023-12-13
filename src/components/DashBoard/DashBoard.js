@@ -68,7 +68,11 @@ const DashBoard = () => {
     }
   }
   
-  const getBureauFilesNCards = (bureauName) => fileList.filter(file => file.BureauName === bureauName);
+  //const getBureauFilesNCards = (bureauName) => fileList.filter(file => file.BureauName === bureauName);
+
+  const getBureauFilesNCards = (bureauName) => {
+    return fileList[bureauName]
+  };
   console.log('selectedBureau', selectedBureau);
 
   return (

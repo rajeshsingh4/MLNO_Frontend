@@ -7,12 +7,8 @@ Chart.register(ArcElement)
 const ChartPie = (props) => {
 
   const createTATData = () => {
-    let outsideTAT = 0, withinTAT = 0;
-    props.files.forEach(file => {
-      outsideTAT += file.bureauoutsidetat;
-      withinTAT += file.bureauwithintat;
-    })
-    return [outsideTAT, withinTAT];
+    
+    return [props.files.bureauoutsidetat, props.files.bureauwithintat];
   }
 
   const [data] = useState({
