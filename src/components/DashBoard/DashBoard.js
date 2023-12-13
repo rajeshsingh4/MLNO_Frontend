@@ -22,17 +22,31 @@ const bureauListSample = [
 ]
 
 const DashBoard = () => {
-  const [bureauList, setBureauList] = React.useState(bureauListSample);
-  const [fileListLoader, setFileListLoader] = React.useState(false);
-  const [fileListError, setFileListError] = React.useState(false);
+  const [bureauList, setBureauList] = React.useState([]);
+  const [bureauGroupData, setBureauGroupData] = React.useState({});
   const [fileList, setFileList] = React.useState([]);
   const [selectedBureau, setSelectedBureau] = React.useState([]);
-
+  const [fileListLoader, setFileListLoader] = React.useState(false);
+  const [fileListError, setFileListError] = React.useState(false);
+  
+  function setBureauGroupfun(bureauDetails){
+    console.log(bureauDetails);
+    const bureauNames = Object.keys(bureauDetails)
+    const bureauListToSet=[]
+    for(let i=0;i<bureauNames.length;i++){
+      bureauListToSet.push({
+        id:i,
+        name:bureauNames[i]
+      })
+    }
+    setBureauList(bureauListToSet);
+  }
   const getFileList = async () => {
     setFileListLoader(true);
     try {
-      const fileMasterDetails = await FileMasterListService.getFileMasterList();
-      setFileList(fileMasterDetails.data);
+      const bureauDetails = await FileMasterListService.getBureauTAT();
+      setBureauGroupfun(bureauDetails.data);
+      setFileList(bureauDetails.data);
     } catch (err) {
       console.error("Error fetching list of files in dashboard ", err);
       setFileListError(true);
