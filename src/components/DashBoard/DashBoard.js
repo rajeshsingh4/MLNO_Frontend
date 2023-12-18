@@ -22,29 +22,21 @@ const bureauListSample = [
 ]
 
 const DashBoard = () => {
-  const [bureauList, setBureauList] = React.useState([]);
+  const [bureauList, setBureauList] = React.useState(bureauListSample);
   const [bureauGroupData, setBureauGroupData] = React.useState({});
   const [fileList, setFileList] = React.useState([]);
   const [selectedBureau, setSelectedBureau] = React.useState([]);
   const [fileListLoader, setFileListLoader] = React.useState(false);
   const [fileListError, setFileListError] = React.useState(false);
   
-  function setBureauGroupfun(bureauDetails){
-    console.log(bureauDetails);
-    const bureauNames = Object.keys(bureauDetails)
-    const bureauListToSet=[]
-    for(let i=0;i<bureauNames.length;i++){
-      bureauListToSet.push({
-        id:i,
-        name:bureauNames[i]
-      })
-    }
-    setBureauList(bureauListToSet);
+  const setBureauGroupfun = (bureauDetails) => {
+    const uniqueBureauData = [...new Map(bureauDetails.map(item => [item['BureauName'], item])).values()]; 
+    setBureauList(uniqueBureauData);
   }
   const getFileList = async () => {
     setFileListLoader(true);
     try {
-      const bureauDetails = await FileMasterListService.getBureauTAT();
+      const bureauDetails = await FileMasterListService.getFileMasterList();
       setBureauGroupfun(bureauDetails.data);
       setFileList(bureauDetails.data);
     } catch (err) {
@@ -62,18 +54,21 @@ const DashBoard = () => {
   const handleBureauSelect = (e, bureau) => {
     const checked = e.target.checked;
     if (checked) {
-      setSelectedBureau([...selectedBureau, bureau.id]);
+      setSelectedBureau([...selectedBureau, bureau.BureauName]);
     } else {
-      setSelectedBureau(selectedBureau.filter(bu => bu !== bureau.id));
+      setSelectedBureau(selectedBureau.filter(bu => bu !== bureau.BureauName));
     }
   }
   
-  //const getBureauFilesNCards = (bureauName) => fileList.filter(file => file.BureauName === bureauName);
+  const getBureauFilesNCards = (bureauName) => fileList.filter(file => file.BureauName === bureauName);
 
-  const getBureauFilesNCards = (bureauName) => {
-    return fileList[bureauName]
-  };
-  console.log('selectedBureau', selectedBureau);
+  if(fileListLoader) {
+    return <>Loading....</>
+  }
+
+  if (fileListError) {
+    return <>Error loading files....</>
+  }
 
   return (
     <div className="container">
@@ -83,19 +78,18 @@ const DashBoard = () => {
           <FormGroup>
             {
               bureauList.map(bureau => (
-                <FormControlLabel key={bureau.id} control={<Checkbox onChange={(e) => handleBureauSelect(e, bureau)} />} label={bureau.name} />
+                <FormControlLabel key={bureau.id} control={<Checkbox onChange={(e) => handleBureauSelect(e, bureau)} />} label={bureau.BureauName} />
               ))
             }
           </FormGroup>
         </Grid>
         <Grid xs={12} md={6}>
-          Consolidated Matrix
-          
+          <ChartPie files={fileList} bureau={{ BureauName: 'Overall Matrix' }} />
         </Grid>
         {
-          bureauList.map(bureau => selectedBureau.includes(bureau.id) && (
+          bureauList.map(bureau => selectedBureau.includes(bureau.BureauName) && (
             <Grid xs={12} sm={4} key={bureau.id}>
-              <ChartPie files={getBureauFilesNCards(bureau.name)} bureau={bureau} />
+              <ChartPie files={getBureauFilesNCards(bureau.BureauName)} bureau={bureau} />
             </Grid>
           ))
         }

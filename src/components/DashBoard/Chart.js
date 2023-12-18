@@ -7,8 +7,12 @@ Chart.register(ArcElement)
 const ChartPie = (props) => {
 
   const createTATData = () => {
-    
-    return [props.files.bureauoutsidetat, props.files.bureauwithintat];
+    let outsideTAT = 0, withinTAT = 0;
+    props.files.forEach(file => {
+      outsideTAT += file.bureauoutsidetat;
+      withinTAT += file.bureauwithintat;
+    })
+    return [outsideTAT, withinTAT];
   }
 
   const [data] = useState({
@@ -28,7 +32,7 @@ const ChartPie = (props) => {
 
   return (
     <CDBContainer>
-      <h3 className="mt-5">{props.bureau.name}</h3>
+      <h3 className="mt-5">{props.bureau.BureauName}</h3>
       <Pie data={data} options={{ responsive: true }} />
     </CDBContainer>
   );
