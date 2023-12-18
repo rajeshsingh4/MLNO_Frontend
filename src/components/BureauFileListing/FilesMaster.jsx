@@ -91,17 +91,17 @@ export const  FilesMaster = () => {
     }
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 600, width: '100%' }}>
       <DataGrid
         loading={fileListLoader}
         rows={fileList}
         columns={getColumnMapping(fileList[0])}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 10 },
           },
         }}
-        pageSizeOptions={[5, 10, 20, 50]}
+        pageSizeOptions={[10, 20, 50, 100]}
         // checkboxSelection
       />
     </div>
