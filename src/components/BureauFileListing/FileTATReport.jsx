@@ -107,6 +107,11 @@ export const  FileTATReport = () => {
                 basicColumnFields.description = 'Bureau within TAT';
                 basicColumnFields.renderCell = (params) => <Button variant="contained" color="apple"  onClick={() => showTATDetailsReport('bureauwithintat', params.row.id, params.row['bureauwithintat_listData'])} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.bureauwithintat}</Button>
             }
+            if (key === 'bureauWIP') {
+                basicColumnFields.headerName = 'Bureau WIP';
+                basicColumnFields.description = 'Bureau WIP';
+                basicColumnFields.renderCell = (params) => <Button variant="contained" color="apple"  onClick={() => showTATDetailsReport('bureauWIP', params.row.id, params.row['bureauwithintat_listData'])} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.bureauWIP}</Button>
+            }
             if (key === 'bureauoutsidetat') {
                 basicColumnFields.headerName = 'Bureau outside TAT';
                 basicColumnFields.description = 'Bureau outside TAT';
