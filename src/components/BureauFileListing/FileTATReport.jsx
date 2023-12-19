@@ -8,26 +8,24 @@ import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
 import FileMasterListService from '../../services/files.services';
 import { FileTATReportCardDetails } from './FileTATReportCardDetails';
-
 import {
     createTheme,
-    PaletteColorOptions,
     ThemeProvider,
-  } from '@mui/material/styles';
+} from '@mui/material/styles';
 
-  const { palette } = createTheme();
-  const { augmentColor } = palette;
-  const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
-  const theme = createTheme({
+const { palette } = createTheme();
+const { augmentColor } = palette;
+const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
+const theme = createTheme({
     palette: {
-      anger: createColor('#F40B27'),
-      apple: createColor('#5DBA40'),
-      steelBlue: createColor('#5C76B7'),
-      violet: createColor('#BC00A3'),
+        anger: createColor('#F40B27'),
+        apple: createColor('#5DBA40'),
+        steelBlue: createColor('#5C76B7'),
+        violet: createColor('#BC00A3'),
     },
-  });
+});
 
-export const  FileTATReport = () => {
+export const FileTATReport = () => {
     const [fileTatLoader, setFileListLoader] = React.useState(false);
     const [fileTatError, setFileListError] = React.useState(false);
     const [fileTatReport, setFileList] = React.useState([]);
@@ -38,7 +36,7 @@ export const  FileTATReport = () => {
         try {
             const fileTATDetails = await FileMasterListService.getFileMasterList();
             // adding 5 temp columns - total cards count, bureau within tat, bureau outside tat, courier within tat, courier outside tat
-           
+
             setFileList(fileTATDetails.data);
         } catch (err) {
             console.error("Error fetching list of activity logs ", err);
@@ -102,12 +100,12 @@ export const  FileTATReport = () => {
             if (key === 'bureauwithintat') {
                 basicColumnFields.headerName = 'Bureau within TAT';
                 basicColumnFields.description = 'Bureau within TAT';
-                basicColumnFields.renderCell = (params) => <Button variant="contained" color="apple"  onClick={() => showTATDetailsReport('bureauwithintat', params.row.id, params.row['bureauwithintat_listData'])} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.bureauwithintat}</Button>
+                basicColumnFields.renderCell = (params) => <Button variant="contained" color="apple" onClick={() => showTATDetailsReport('bureauwithintat', params.row.id, params.row['bureauwithintat_listData'])} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.bureauwithintat}</Button>
             }
             if (key === 'bureauWIP') {
                 basicColumnFields.headerName = 'Bureau WIP';
                 basicColumnFields.description = 'Bureau WIP';
-                basicColumnFields.renderCell = (params) => <Button variant="contained" color="apple"  onClick={() => showTATDetailsReport('bureauWIP', params.row.id, params.row['bureauwithintat_listData'])} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.bureauWIP}</Button>
+                basicColumnFields.renderCell = (params) => <Button variant="contained" color="apple" onClick={() => showTATDetailsReport('bureauWIP', params.row.id, params.row['bureauwithintat_listData'])} disableElevation size="small" style={{ marginLeft: 16 }}>{params.row.bureauWIP}</Button>
             }
             if (key === 'bureauoutsidetat') {
                 basicColumnFields.headerName = 'Bureau outside TAT';
@@ -152,54 +150,54 @@ export const  FileTATReport = () => {
         return modalName;
     }
 
-  return (
-    <div style={{ height: 400, width: '100%' }}>
-        <ThemeProvider theme={theme}>
-      <DataGrid
-        loading={fileTatLoader}
-        rows={fileTatReport}
-        columns={getColumnMapping(fileTatReport[0])}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[10, 20, 50, 100]}
-        // checkboxSelection
-      />
-      <Modal
-            id='edit-track-card-item'
-            aria-labelledby="track-card-item"
-            aria-describedby="track-card-item-description"
-            open={tatCardDetails !== null}
-            onClose={hideTATDetailsReport}
-        >
-            <Box
-                sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 'calc(80vw)',
-                    height: '80vh',
-                    backgroundColor: '#FFFFFF',
-                    overflowX: 'hidden',
-                    overflowY: 'auto',
-                    fontWeight: 500,
-                    textAlign: 'start',
-                    padding: '24px'
-                }}
-            >
-                <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    {getModalName()} Details
-                    <IconButton id='close-edit-item' onClick={hideTATDetailsReport}><ClearIcon /></IconButton>
-                </Typography>
-                <Box component="form" id="card-form-container" noValidate autoComplete="off" sx={{ mt: 2, mb: 1 }}>
-                    <FileTATReportCardDetails details={tatCardDetails} />
-                </Box>
-            </Box>
-        </Modal>
-        </ThemeProvider>
-    </div>
-  );
+    return (
+        <div style={{ height: 400, width: '100%' }}>
+            <ThemeProvider theme={theme}>
+                <DataGrid
+                    loading={fileTatLoader}
+                    rows={fileTatReport}
+                    columns={getColumnMapping(fileTatReport[0])}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 10 },
+                        },
+                    }}
+                    pageSizeOptions={[10, 20, 50, 100]}
+                    // checkboxSelection
+                />
+                <Modal
+                    id='edit-track-card-item'
+                    aria-labelledby="track-card-item"
+                    aria-describedby="track-card-item-description"
+                    open={tatCardDetails !== null}
+                    onClose={hideTATDetailsReport}
+                >
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: 'calc(80vw)',
+                            height: '80vh',
+                            backgroundColor: '#FFFFFF',
+                            overflowX: 'hidden',
+                            overflowY: 'auto',
+                            fontWeight: 500,
+                            textAlign: 'start',
+                            padding: '24px'
+                        }}
+                    >
+                        <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                            {getModalName()} Details
+                            <IconButton id='close-edit-item' onClick={hideTATDetailsReport}><ClearIcon /></IconButton>
+                        </Typography>
+                        <Box component="form" id="card-form-container" noValidate autoComplete="off" sx={{ mt: 2, mb: 1 }}>
+                            <FileTATReportCardDetails details={tatCardDetails} />
+                        </Box>
+                    </Box>
+                </Modal>
+            </ThemeProvider>
+        </div>
+    );
 }
