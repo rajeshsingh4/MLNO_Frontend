@@ -63,9 +63,6 @@ export const  FileTATReport = () => {
     }
 
     const showTATDetailsReport = (type, fileId, cardData) => {
-        console.log("- type ->",type);
-        console.log("- fileId ->",fileId);
-        console.log("- cardData ->",cardData);
         setTATCardDetails({ type: type, fileId: fileId, cardData: cardData });
     }
 

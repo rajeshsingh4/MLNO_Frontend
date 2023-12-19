@@ -38,7 +38,6 @@ export const  FilesMaster = () => {
     }
 
     const viewFileDetails = (fileId, cardData) => {
-        console.log(fileId, cardData);
         navigate(`/files/${fileId}`, { state: cardData });
     }
 

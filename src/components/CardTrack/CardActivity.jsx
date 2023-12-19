@@ -78,7 +78,6 @@ export default function CardActivity(props) {
             {
                 (cardActivityLogs && cardActivityLogs.length > 0) && cardActivityLogs.map((logs, i) => {
                     const diffValues = getJSONDiffValue(JSON.parse(logs.previous), JSON.parse(logs.current));
-                    console.log(diffValues, i);
                     let keys = Object.keys(diffValues);
                     return (
                         <TimelineItem key={i}>
