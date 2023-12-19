@@ -23,7 +23,6 @@ const bureauListSample = [
 
 const DashBoard = () => {
   const [bureauList, setBureauList] = React.useState(bureauListSample);
-  const [bureauGroupData, setBureauGroupData] = React.useState({});
   const [fileList, setFileList] = React.useState([]);
   const [selectedBureau, setSelectedBureau] = React.useState([]);
   const [fileListLoader, setFileListLoader] = React.useState(false);
@@ -62,6 +61,8 @@ const DashBoard = () => {
   
   const getBureauFilesNCards = (bureauName) => fileList.filter(file => file.BureauName === bureauName);
 
+  const getSelectedBureauFiles = () => fileList.filter(file => selectedBureau.includes(file.BureauName));
+
   if(fileListLoader) {
     return <>Loading....</>
   }
@@ -83,8 +84,17 @@ const DashBoard = () => {
             }
           </FormGroup>
         </Grid>
-        <Grid xs={12} md={6}>
-          <ChartPie files={fileList} bureau={{ BureauName: 'Overall Matrix' }} />
+        <Grid xs={12} md={6} sx={{ display: 'flex', flexDirection: 'row' }}>
+          <Grid xs={12} sm={6}>
+            <ChartPie files={fileList} bureau={{ BureauName: 'Overall Matrix' }} />
+          </Grid>
+          {
+            selectedBureau.length > 0 && (
+              <Grid xs={12} sm={6}>
+                <ChartPie files={getSelectedBureauFiles()} bureau={{ BureauName: 'Consolidated Matrix' }} />
+              </Grid>
+            )
+          }
         </Grid>
         {
           bureauList.map(bureau => selectedBureau.includes(bureau.BureauName) && (

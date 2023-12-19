@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { CDBContainer } from 'cdbreact';
 import { ArcElement } from "chart.js";
 import Chart from "chart.js/auto";
-Chart.register(ArcElement)
+Chart.register(ArcElement);
+
 const ChartPie = (props) => {
 
   const createTATData = () => {
@@ -15,7 +16,7 @@ const ChartPie = (props) => {
     return [outsideTAT, withinTAT];
   }
 
-  const [data] = useState({
+  const data = {
     labels: [
       'OutSideTAT',
       'WithinTAT',
@@ -28,7 +29,7 @@ const ChartPie = (props) => {
       ],
       hoverOffset: 4
     }]
-  });
+  };
 
   return (
     <CDBContainer>
