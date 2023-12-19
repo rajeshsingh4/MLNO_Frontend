@@ -15,6 +15,7 @@ import RedeemIcon from '@mui/icons-material/Redeem';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import Tooltip from '@mui/material/Tooltip';
 
@@ -190,7 +191,12 @@ export default function Header() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Tooltip title="Dashboard">
-              <IconButton size="large" aria-label="Dashboard" color="inherit" LinkComponent={Link} to={'/dashboard'}>
+              <IconButton size="large" aria-label="Dashboard" color="inherit" LinkComponent={Link} to={'/dashboard-reports'}>
+                <DashboardIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Pending Bureau Reports">
+              <IconButton size="large" aria-label="Pending Bureau Reports" color="inherit" LinkComponent={Link} to={'/bureau-reports'}>
                 <AssessmentIcon />
               </IconButton>
             </Tooltip>

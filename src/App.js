@@ -12,13 +12,12 @@ import BoardUser from "./components/BoardUser";
 import BoardModerator from "./components/BoardModerator";
 import BoardAdmin from "./components/BoardAdmin";
 import CardTracks from "./components/CardTrack/CardTracks";
-// import CardTracksUpdates from "./components/CardTrack/CardTracksUpdates";
 import DashBoard from "./components/DashBoard/DashBoard"
 import { ErrorBoundary } from "./components/ErrorBoundary";
-
 import EventBus from "./common/EventBus";
 import { FilesMaster } from "./components/BureauFileListing/FilesMaster";
 import { FileTATReport } from "./components/BureauFileListing/FileTATReport";
+import { BureauReportDashboard } from "./components/BureauDashboard/BureauReportDashboard";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -62,7 +61,8 @@ const App = () => {
           <Route path="files" element={<FilesMaster />} />
           <Route path="files/:id" element={<CardTracks fileDetails={location.state} navigate={navigate} />} />
           <Route path="file-tat-report" element={<FileTATReport />} />
-          <Route path="dashboard" element={<DashBoard/>} />
+          <Route path="dashboard-reports" element={<DashBoard />} />
+          <Route path="bureau-reports" element={<BureauReportDashboard />} />
           <Route path="profile" element={<Profile/>} />
           <Route path="admin" element={<BoardAdmin/>} />
           <Route path="user" element={<BoardUser/>} />
