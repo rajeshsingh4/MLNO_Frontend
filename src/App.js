@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import AuthService from "./services/auth.service";
-import Header from './components/MenuBar/Header';
+import Header from "./components/MenuBar/Header";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
@@ -18,6 +17,7 @@ import EventBus from "./common/EventBus";
 import { FilesMaster } from "./components/BureauFileListing/FilesMaster";
 import { FileTATReport } from "./components/BureauFileListing/FileTATReport";
 import { BureauReportDashboard } from "./components/BureauDashboard/BureauReportDashboard";
+import PullRequest from "./components/PullRequest/PullRequest";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -63,6 +63,7 @@ const App = () => {
           <Route path="file-tat-report" element={<FileTATReport />} />
           <Route path="dashboard-reports" element={<DashBoard />} />
           <Route path="bureau-reports" element={<BureauReportDashboard />} />
+          <Route path="pull-request" element={<PullRequest />} />
           <Route path="profile" element={<Profile/>} />
           <Route path="admin" element={<BoardAdmin/>} />
           <Route path="user" element={<BoardUser/>} />

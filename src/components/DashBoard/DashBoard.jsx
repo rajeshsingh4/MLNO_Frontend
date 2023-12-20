@@ -72,10 +72,10 @@ const DashBoard = () => {
   }
 
   return (
-    <div className="container">
-      <h3> Dashboard</h3>
+    <div className="bureau-dashboard" id="dashboard">
       <Grid container spacing={3}>
         <Grid xs={12} md={6}>
+          <h3>Bureau Dashboard</h3>
           <FormGroup>
             {
               bureauList.map(bureau => (
@@ -85,12 +85,12 @@ const DashBoard = () => {
           </FormGroup>
         </Grid>
         <Grid xs={12} md={6} sx={{ display: 'flex', flexDirection: 'row' }}>
-          <Grid xs={12} sm={6}>
+          <Grid xs={12} sm={6} className="overall-matrix">
             <ChartPie files={fileList} bureau={{ BureauName: 'Overall Matrix' }} />
           </Grid>
           {
             selectedBureau.length > 0 && (
-              <Grid xs={12} sm={6}>
+              <Grid xs={12} sm={6} className="consolidated-matrix">
                 <ChartPie files={getSelectedBureauFiles()} bureau={{ BureauName: 'Consolidated Matrix' }} />
               </Grid>
             )
@@ -98,7 +98,7 @@ const DashBoard = () => {
         </Grid>
         {
           bureauList.map(bureau => selectedBureau.includes(bureau.BureauName) && (
-            <Grid xs={12} sm={4} key={bureau.id}>
+            <Grid xs={12} sm={4} key={bureau.id} className="selected-bureau-matrix">
               <ChartPie files={getBureauFilesNCards(bureau.BureauName)} bureau={bureau} />
             </Grid>
           ))

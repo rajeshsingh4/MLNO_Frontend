@@ -46,3 +46,7 @@ label {
 .MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows {
   margin-bottom: 0;
 }
+
+.bureau-dashboard .overall-matrix h3, .bureau-dashboard .consolidated-matrix h3 {
+  margin-top: 0 !important;
+}
