@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
 export const FileTATReportCardDetails = (props) => {
-  const [fileList, setFileList] = React.useState(props.details.cardData);
+  const [fileList] = React.useState(props.details.cardData);
 
   if (!fileList || fileList.length === 0) {
     return (

@@ -63,7 +63,7 @@ export const BureauReportDashboard = (props) => {
     
     React.useEffect(() => {
         if (bureauList.length > 0) {
-            getReportForBureau(bureauList[0].bureauName);
+            getReportForBureau(bureauList[0].BureauName);
         }
     }, [bureauList]);
 
