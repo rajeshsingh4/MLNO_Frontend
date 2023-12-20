@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -65,6 +65,8 @@ export default function Header() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const location = useLocation();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -191,12 +193,12 @@ export default function Header() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Tooltip title="Dashboard">
-              <IconButton size="large" aria-label="Dashboard" color="inherit" LinkComponent={Link} to={'/dashboard-reports'}>
+              <IconButton size="large" aria-label="Dashboard" color={location.pathname === '/dashboard-reports' ? '#ffeb3b' : 'inherit'} LinkComponent={Link} to={'/dashboard-reports'}>
                 <DashboardIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="Pending Bureau Reports">
-              <IconButton size="large" aria-label="Pending Bureau Reports" color="inherit" LinkComponent={Link} to={'/bureau-reports'}>
+              <IconButton size="large" aria-label="Pending Bureau Reports" color={location.pathname === '/bureau-reports' ? '#ffeb3b' : 'inherit'} LinkComponent={Link} to={'/bureau-reports'}>
                 <AssessmentIcon />
               </IconButton>
             </Tooltip>
@@ -204,7 +206,7 @@ export default function Header() {
               <IconButton
                 size="large"
                 aria-label="File Wise Tracking"
-                color="inherit"
+                color={location.pathname === '/files' ? '#ffeb3b' : 'inherit'}
                 LinkComponent={Link} to={'/files'}
               >
                 <CreditCardIcon />
@@ -214,7 +216,7 @@ export default function Header() {
               <IconButton
                 size="large"
                 aria-label="File TAT Report"
-                color="inherit"
+                color={location.pathname === '/file-tat-report' ? '#ffeb3b' : 'inherit'}
                 LinkComponent={Link} to={'/file-tat-report'}
               >
                 <RedeemIcon />

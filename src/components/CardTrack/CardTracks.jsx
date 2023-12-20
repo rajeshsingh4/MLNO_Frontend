@@ -116,7 +116,7 @@ class CardTracks extends React.Component {
 		let fieldToShow = ['trackingId','Bank','AWB_No','Product','Logo','PA_Flag','NRWC_Flag','Bureau_Total_TAT_Days','Bureau_TAT_Extra_Days_Passed','Bureau_Status','Courier_Status','Courier_TAT_Extra_Days_Passed']
 
 		listKey.forEach((key, i) => {
-			let baseFieldObj = { name: listKey[i], options: { filter: true ,display: (fieldToShow.includes(listKey[i])?true:false)} };
+			let baseFieldObj = { name: listKey[i], options: { filter: true , display: (fieldToShow.includes(listKey[i]) ? true : false) } };
 			if (this.fieldNameMapping.hasOwnProperty(key)) {
 				baseFieldObj.label = this.fieldNameMapping[key];
 			}

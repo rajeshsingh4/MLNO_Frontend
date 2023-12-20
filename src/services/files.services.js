@@ -16,10 +16,15 @@ const getBureauTAT = () => {
   return axios.get(BUREAU_URL + "all");
 }
 
+const getBureauReport = (bureauName) => {
+  return axios.get(FILE_URL + 'bureau/' + bureauName);
+}
+
 const FlieMasterListService = {
     getFileMasterList,
     getFileMasterListByFileId,
-    getBureauTAT
+    getBureauTAT,
+    getBureauReport
 };
 
 export default FlieMasterListService;

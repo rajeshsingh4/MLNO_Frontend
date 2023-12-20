@@ -21,11 +21,15 @@ export const BureauReportDashboard = (props) => {
     const [selectedBureau, setSelectedBureau] = React.useState('');
     const [fileListLoader, setFileListLoader] = React.useState(false);
     const [fileListError, setFileListError] = React.useState(false);
+    const [bureauReport, setBureauReport] = React.useState(null);
+    const [bureauReportLoader, setBureauReportLoader] = React.useState(false);
+    const [bureauReportError, setBureauReportError] = React.useState(false);
 
     const createUniqueBureauList = (bureauDetails) => {
         const uniqueBureauData = [...new Map(bureauDetails.map(item => [item['BureauName'], item])).values()];
         setBureauList(uniqueBureauData);
     }
+
     const getFileList = async () => {
         setFileListLoader(true);
         try {
@@ -40,9 +44,28 @@ export const BureauReportDashboard = (props) => {
         }
     };
 
+    const getReportForBureau = async (bureauName) => {
+        setBureauReportLoader(true);
+        try {
+            const bureauDetails = await FileMasterListService.getBureauReport(bureauName);
+            setBureauReport(bureauDetails.data);
+        } catch (err) {
+            console.error("Error fetching list of files in dashboard ", err);
+            setBureauReportError(true);
+        } finally {
+            setBureauReportLoader(false);
+        }
+    };
+
     React.useEffect(() => {
         getFileList();
     }, []);
+    
+    React.useEffect(() => {
+        if (bureauList.length > 0) {
+            getReportForBureau(bureauList[0].bureauName);
+        }
+    }, [bureauList]);
 
     const handleBureauSelect = (e) => {
         setSelectedBureau(e.target.value);
@@ -50,12 +73,16 @@ export const BureauReportDashboard = (props) => {
 
     const getSelectedFilesForBureau = (bureauName) => fileList(item => item.BureauName === bureauName);
 
-    if (fileListLoader) {
+    if (fileListLoader || bureauReportLoader) {
         return <SkeletonLoader />
     }
 
     if (fileListError) {
-        return <>Error loading bureau details....!!</>
+        return <>Error loading bureau list....!!</>
+    }
+
+    if (bureauReportError) {
+        return <>Error loading bureau reports....!!</>
     }
 
     return (
