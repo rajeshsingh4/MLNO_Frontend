@@ -11,9 +11,14 @@ const updateCardTrackingList = (id, data) => {
   return axios.put(CARD_URL + id, data);
 };
 
+const getAllCardsWithFileDeatils = () => {
+  return axios.get(CARD_URL + 'all?fileList=true');
+};
+
 const CardTrackingService = {
   getCardTrackingList,
-  updateCardTrackingList
+  updateCardTrackingList,
+  getAllCardsWithFileDeatils
 };
 
 export default CardTrackingService;

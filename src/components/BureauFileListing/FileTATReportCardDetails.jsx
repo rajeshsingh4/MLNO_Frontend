@@ -33,7 +33,7 @@ export const FileTATReportCardDetails = (props) => {
   }
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ width: '100%' }}>
       <DataGrid
         rows={fileList}
         columns={getColumnMapping(fileList[0])}

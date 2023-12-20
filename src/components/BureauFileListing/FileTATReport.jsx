@@ -151,7 +151,7 @@ export const FileTATReport = () => {
     }
 
     return (
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ width: '100%' }}>
             <ThemeProvider theme={theme}>
                 <DataGrid
                     loading={fileTatLoader}
