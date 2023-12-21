@@ -24,6 +24,12 @@ export const BureauReportDashboard = (props) => {
     const [bureauReport, setBureauReport] = React.useState(null);
     const [bureauReportLoader, setBureauReportLoader] = React.useState(false);
     const [bureauReportError, setBureauReportError] = React.useState(false);
+    // const [summaryDataPointsToDisplay]=React.useState(['TotalCountAllocated','countDispatched']);
+   /* const [summaryDataPointsToDisplay]=React.useState(['TotalCountAllocated','countDispatched']);
+    const [tagLabel]=React.useState({
+        'TotalCountAllocated' : 'Total Count Allocated',
+        'countDispatched': 'Count Dispatched'
+    });*/
 
     const createUniqueBureauList = (bureauDetails) => {
         const uniqueBureauData = [...new Map(bureauDetails.map(item => [item['BureauName'], item])).values()];
@@ -145,59 +151,22 @@ export const BureauReportDashboard = (props) => {
                 <Grid xs={12} sm={12}>
                     <TableContainer component={Paper}>
                         <Table stickyHeader aria-label="bureau report list">
-                            <TableHead>
+                        <TableHead>
                                 <TableRow>
-                                    <TableCell>Date</TableCell>
-                                    <TableCell align='right'>Today</TableCell>
-                                    <TableCell align='right'>25/9/2023</TableCell>
+                                {bureauReport.oldestDate.TATDateLIST.map((d) => {
+                                    return (
+                                        <TableCell>{d}</TableCell>
+                                    );
+                                 })}                                   
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                <TableRow>
-                                    <TableCell>Total Count Allocated</TableCell>
-                                    <TableCell align='right'>641</TableCell>
-                                    <TableCell align='right'>740</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>Count Dispatched / Pulled as agreed</TableCell>
-                                    <TableCell align='right'>640</TableCell>
-                                    <TableCell align='right'>735</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>Count Pending / WIP</TableCell>
-                                    <TableCell align='right'>1</TableCell>
-                                    <TableCell align='right'>5</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>% Pending / WIP of Total (0 decimal place)</TableCell>
-                                    <TableCell align='right'>0.06 %</TableCell>
-                                    <TableCell align='right'>0.31 %</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>Beyond TAT count</TableCell>
-                                    <TableCell align='right'>4</TableCell>
-                                    <TableCell align='right'>4</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>Beyond TAT %</TableCell>
-                                    <TableCell align='right'>1 %</TableCell>
-                                    <TableCell align='right'>1 %</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>Overall % within TAT (2 decimal place)</TableCell>
-                                    <TableCell align='right'>99 %</TableCell>
-                                    <TableCell align='right'>99 %</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>How many going out of TAT if not dispatched today (except for today)</TableCell>
-                                    <TableCell align='right'>1</TableCell>
-                                    <TableCell align='right'>3</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>How many going out of TAT if not dispatched tomorrow</TableCell>
-                                    <TableCell align='right'>0</TableCell>
-                                    <TableCell align='right'>0</TableCell>
-                                </TableRow>
+                            { bureauReport.oldestDate.TATDateLIST.map((d) => {
+                                    return (
+                                        <TableCell>{bureauReport.oldestDate.TATWiseGroup[d].TotalCountAllocated}</TableCell>
+                                    );
+                            })}
+                            
                             </TableBody>
                         </Table>
                     </TableContainer>

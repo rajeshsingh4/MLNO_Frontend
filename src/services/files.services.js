@@ -3,6 +3,7 @@ import axios from "axios";
 
 const FILE_URL = `${process.env.REACT_APP_URL}/api/fileList/`;
 const BUREAU_URL = `${process.env.REACT_APP_URL}/api/bureauTAT/`;
+const BUREAUDETAIL_URL = `${process.env.REACT_APP_URL}/api/bureauData/`;
 
 const getFileMasterList = () => {
   return axios.get(FILE_URL + "all");
@@ -17,7 +18,7 @@ const getBureauTAT = () => {
 }
 
 const getBureauReport = (bureauName) => {
-  return axios.get(FILE_URL + 'bureau/' + bureauName);
+  return axios.get(BUREAUDETAIL_URL + bureauName);
 }
 
 const FlieMasterListService = {
