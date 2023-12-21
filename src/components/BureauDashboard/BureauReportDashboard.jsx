@@ -76,11 +76,13 @@ export const BureauReportDashboard = (props) => {
   React.useEffect(() => {
     if (bureauList.length > 0) {
       getReportForBureau(bureauList[0].BureauName);
+      setSelectedBureau(bureauList[0].BureauName);
     }
   }, [bureauList]);
 
   const handleBureauSelect = (e) => {
     setSelectedBureau(e.target.value);
+    getReportForBureau(e.target.value);
   };
 
   const getSelectedFilesForBureau = (bureauName) =>
