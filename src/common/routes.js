@@ -1,8 +1,8 @@
 export const ROUTES_LIST = [
     {
-        title: 'Dashboard',
-        label: 'Dashboard',
-        path: '/dashboard-reports',
+        title: 'Bureau Comparision',
+        label: 'Bureau Comparision',
+        path: '/bureau-comparision',
         exact: true,
         defaultColor: 'inherit',
         deafultBgColor: '#ffffff',

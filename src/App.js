@@ -11,7 +11,7 @@ import BoardUser from "./components/BoardUser";
 import BoardModerator from "./components/BoardModerator";
 import BoardAdmin from "./components/BoardAdmin";
 import CardTracks from "./components/CardTrack/CardTracks";
-import DashBoard from "./components/DashBoard/DashBoard"
+import BureauComparisionDashBoard from "./components/BureauComparision/DashBoard"
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import EventBus from "./common/EventBus";
 import { FilesMaster } from "./components/BureauFileListing/FilesMaster";
@@ -61,7 +61,7 @@ const App = () => {
           <Route path="files" element={<FilesMaster />} />
           <Route path="files/:id" element={<CardTracks fileDetails={location.state} navigate={navigate} />} />
           <Route path="file-tat-report" element={<FileTATReport />} />
-          <Route path="dashboard-reports" element={<DashBoard />} />
+          <Route path="bureau-comparision" element={<BureauComparisionDashBoard />} />
           <Route path="bureau-reports" element={<BureauReportDashboard />} />
           <Route path="pull-request" element={<PullRequest />} />
           <Route path="profile" element={<Profile/>} />

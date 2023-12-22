@@ -21,7 +21,7 @@ const bureauListSample = [
   }
 ]
 
-const BureauComparisionDashBoard = () => {
+const DashBoard = () => {
   const [bureauList, setBureauList] = React.useState(bureauListSample);
   const [fileList, setFileList] = React.useState([]);
   const [selectedBureau, setSelectedBureau] = React.useState([]);
@@ -108,4 +108,4 @@ const BureauComparisionDashBoard = () => {
   );
 };
 
-export default BureauComparisionDashBoard;
+export default DashBoard;
