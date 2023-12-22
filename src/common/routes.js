@@ -52,11 +52,40 @@ export const ROUTES_LIST = [
     {
         title: 'Pull Request',
         label: 'Pull Request',
-        path: '/pull-request',
-        exact: true,
         defaultColor: 'inherit',
         deafultBgColor: '#ffffff',
-        selectedColor: '#ffeb3b',
-        selectedBgColor: '#f0f8ff',
+        childRoutes: [
+            {
+                title: 'Create Pull Request',
+                label: 'Create Pull Request',
+                path: '/pull-request/create',
+                index: true,
+                exact: true,
+                defaultColor: 'inherit',
+                deafultBgColor: '#ffffff',
+                selectedColor: '#ffeb3b',
+                selectedBgColor: '#f0f8ff',
+            },
+            {
+                title: 'Manage Pull Request',
+                label: 'Manage Pull Request',
+                path: '/pull-request/manage',
+                exact: true,
+                defaultColor: 'inherit',
+                deafultBgColor: '#ffffff',
+                selectedColor: '#ffeb3b',
+                selectedBgColor: '#f0f8ff',
+            },
+            {
+                title: 'View Pull Request',
+                label: 'View Pull Request',
+                path: '/pull-request/view/:id',
+                exact: true,
+                defaultColor: 'inherit',
+                deafultBgColor: '#ffffff',
+                selectedColor: '#ffeb3b',
+                selectedBgColor: '#f0f8ff',
+            }
+        ]
     },
 ]

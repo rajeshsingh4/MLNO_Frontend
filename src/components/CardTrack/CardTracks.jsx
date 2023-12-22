@@ -133,7 +133,7 @@ class CardTracks extends React.Component {
 						sort: false,
 						customBodyRender: (value, tableMeta, updateValue) => (
 							<>
-								<IconButton aria-label="delete" value={value} data-custom={{ tableMeta, updateValue }} row={row} onClick={() => this.handleEdit(row, tableMeta)}>
+								<IconButton aria-label="edit" value={value} data-custom={{ tableMeta, updateValue }} row={row} onClick={() => this.handleEdit(row, tableMeta)}>
 									<EditIcon />
 								</IconButton>
 								{/* <IconButton aria-label="delete" value={value} data-custom={{tableMeta, updateValue}} row={row} onClick={() => console.log('delete handler')}>
@@ -198,7 +198,11 @@ class CardTracks extends React.Component {
 			filter: true,
 			fixedHeader: true,
 			filterType: 'dropdown',
-			responsive: 'standard'
+			responsive: 'standard',
+			print: false,
+			selectableRows: 'none',
+			rowsPerPage: 10,
+			rowsPerPageOptions: [10, 20, 50, 100],
 		};
 
 		return (

@@ -21,7 +21,7 @@ const bureauListSample = [
   }
 ]
 
-const BureauComparisionDashBoard = () => {
+const DashBoard = () => {
   const [bureauList, setBureauList] = React.useState(bureauListSample);
   const [fileList, setFileList] = React.useState([]);
   const [selectedBureau, setSelectedBureau] = React.useState([]);
@@ -32,14 +32,14 @@ const BureauComparisionDashBoard = () => {
     const uniqueBureauData = [...new Map(bureauDetails.map(item => [item['BureauName'], item])).values()]; 
     setBureauList(uniqueBureauData);
   }
-  const getFileList = async () => {
+  const getBureauComparisonList = async () => {
     setFileListLoader(true);
     try {
       const bureauDetails = await FileMasterListService.getFileMasterList();
       setBureauGroupfun(bureauDetails.data);
       setFileList(bureauDetails.data);
     } catch (err) {
-      console.error("Error fetching list of files in dashboard ", err);
+      console.error("Error fetching list of files for Bureau Comparison dashboard ", err);
       setFileListError(true);
     } finally {
       setFileListLoader(false);
@@ -47,7 +47,7 @@ const BureauComparisionDashBoard = () => {
   };
 
   React.useEffect(() => {
-    getFileList();
+    getBureauComparisonList();
   }, []);
 
   const handleBureauSelect = (e, bureau) => {
@@ -108,4 +108,4 @@ const BureauComparisionDashBoard = () => {
   );
 };
 
-export default BureauComparisionDashBoard;
+export default DashBoard;
