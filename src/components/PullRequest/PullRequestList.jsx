@@ -1,8 +1,9 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
-import PullRequestService from '../../services/pull-request.service';
 import { useNavigate } from 'react-router-dom';
+import { actionListMap, modeLsitMap } from '../../common/constants';
+import PullRequestService from '../../services/pull-request.service';
 
 const PullRequestList = (props) => {
     const [pullRequestLoader, setPullRequestLoader] = React.useState(false);
@@ -65,6 +66,7 @@ const PullRequestList = (props) => {
             if (key === 'action') {
                 basicColumnFields.headerName = 'Action';
                 basicColumnFields.description = 'Action';
+                basicColumnFields.valueGetter = (params) => actionListMap[params.row.action] || params.row.action;
             }
             if (key === 'changeCommunicatedTo') {
                 basicColumnFields.headerName = 'Change Communicated To';
@@ -85,6 +87,7 @@ const PullRequestList = (props) => {
             if (key === 'mode') {
                 basicColumnFields.headerName = 'Mode';
                 basicColumnFields.description = 'Mode';
+                basicColumnFields.valueGetter = (params) => modeLsitMap[params.row.mode] || params.row.mode;
             }
             if (key === 'ipaddress') {
                 basicColumnFields.headerName = 'IP Address';
