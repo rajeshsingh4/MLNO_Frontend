@@ -85,11 +85,11 @@ const Sidebar = (props) => {
                                 </ListItemButton>
                                 {
                                     route.childRoutes.map((childRoute, childIndex) => {
+                                        if (childRoute.hidden) return <React.Fragment key={childIndex}></React.Fragment>
                                         return <Collapse in={collapseOpen} timeout="auto" key={childIndex} unmountOnExit>
                                             <List component="div" disablePadding
                                                 sx={{
                                                     display: 'block',
-                                                    color: location.pathname === childRoute.path ? childRoute.selectedColor : childRoute.defaultColor,
                                                     backgroundColor: location.pathname === childRoute.path ? childRoute.selectedBgColor : childRoute.deafultBgColor
                                                 }}
                                             >
@@ -112,7 +112,7 @@ const Sidebar = (props) => {
                                                     >
                                                         <StarBorder />
                                                     </ListItemIcon>
-                                                    <ListItemText primary={childRoute.label} sx={{ opacity: drawerOpen ? 1 : 0 }} />
+                                                    <ListItemText primary={childRoute.label} sx={{ opacity: drawerOpen ? 1 : 0, color: location.pathname === childRoute.path ? childRoute.selectedColor : childRoute.defaultColor }} />
                                                 </ListItemButton>
                                             </List>
                                         </Collapse>
@@ -124,7 +124,6 @@ const Sidebar = (props) => {
                             <ListItem disablePadding
                                 sx={{
                                     display: 'block',
-                                    color: location.pathname === route.path ? route.selectedColor : route.defaultColor,
                                     backgroundColor: location.pathname === route.path ? route.selectedBgColor : route.deafultBgColor
                                 }}
                             >
@@ -146,7 +145,7 @@ const Sidebar = (props) => {
                                     >
                                         {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                     </ListItemIcon>
-                                    <ListItemText primary={route.label} sx={{ opacity: drawerOpen ? 1 : 0 }} />
+                                    <ListItemText primary={route.label} sx={{ opacity: drawerOpen ? 1 : 0, color: location.pathname === route.path ? route.selectedColor : route.defaultColor }} />
                                 </ListItemButton>
                             </ListItem>
                             <Divider component="li" />

@@ -97,7 +97,7 @@ const PullRequestList = (props) => {
             if (key === 'createdAt') {
                 basicColumnFields.headerName = 'Date & Time';
                 basicColumnFields.description = 'Date & Time';
-                basicColumnFields.valueGetter = (params) => (new Date(params.row.createdAt)).getTime();
+                basicColumnFields.valueGetter = (params) => (new Date(params.row.createdAt)).toLocaleString();
             }
             if (key === 'userId') {
                 basicColumnFields.headerName = 'View Details';

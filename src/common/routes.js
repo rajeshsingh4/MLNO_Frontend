@@ -6,7 +6,7 @@ export const ROUTES_LIST = [
         exact: true,
         defaultColor: 'inherit',
         deafultBgColor: '#ffffff',
-        selectedColor: '#ffeb3b',
+        selectedColor: '#1976d2',
         selectedBgColor: '#f0f8ff',
     },
     {
@@ -16,7 +16,7 @@ export const ROUTES_LIST = [
         exact: true,
         defaultColor: 'inherit',
         deafultBgColor: '#ffffff',
-        selectedColor: '#ffeb3b',
+        selectedColor: '#1976d2',
         selectedBgColor: '#f0f8ff',
     },
     {
@@ -26,7 +26,7 @@ export const ROUTES_LIST = [
         exact: true,
         defaultColor: 'inherit',
         deafultBgColor: '#ffffff',
-        selectedColor: '#ffeb3b',
+        selectedColor: '#1976d2',
         selectedBgColor: '#f0f8ff',
     },
     {
@@ -36,7 +36,7 @@ export const ROUTES_LIST = [
         hidden: true,
         defaultColor: 'inherit',
         deafultBgColor: '#ffffff',
-        selectedColor: '#ffeb3b',
+        selectedColor: '#1976d2',
         selectedBgColor: '#f0f8ff',
     },
     {
@@ -46,7 +46,7 @@ export const ROUTES_LIST = [
         exact: true,
         defaultColor: 'inherit',
         deafultBgColor: '#ffffff',
-        selectedColor: '#ffeb3b',
+        selectedColor: '#1976d2',
         selectedBgColor: '#f0f8ff',
     },
     {
@@ -63,7 +63,7 @@ export const ROUTES_LIST = [
                 exact: true,
                 defaultColor: 'inherit',
                 deafultBgColor: '#ffffff',
-                selectedColor: '#ffeb3b',
+                selectedColor: '#1976d2',
                 selectedBgColor: '#f0f8ff',
             },
             {
@@ -73,17 +73,17 @@ export const ROUTES_LIST = [
                 exact: true,
                 defaultColor: 'inherit',
                 deafultBgColor: '#ffffff',
-                selectedColor: '#ffeb3b',
+                selectedColor: '#1976d2',
                 selectedBgColor: '#f0f8ff',
             },
             {
                 title: 'View Pull Request',
                 label: 'View Pull Request',
                 path: '/pull-request/view/:id',
-                exact: true,
+                hidden: true,
                 defaultColor: 'inherit',
                 deafultBgColor: '#ffffff',
-                selectedColor: '#ffeb3b',
+                selectedColor: '#1976d2',
                 selectedBgColor: '#f0f8ff',
             }
         ]
