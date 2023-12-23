@@ -4,6 +4,10 @@ import AuthService from "../services/auth.service";
 const Profile = () => {
   const currentUser = AuthService.getCurrentUser();
 
+  if (!currentUser) {
+    return <>User Not Found....</>
+  }
+
   return (
     <div className="container">
       <header className="jumbotron">

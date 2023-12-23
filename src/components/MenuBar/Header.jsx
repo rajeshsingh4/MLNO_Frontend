@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
 const AppBar = styled(MuiAppBar, {
@@ -35,6 +35,7 @@ const AppBar = styled(MuiAppBar, {
 export default function Header() {
     const [open, setOpen] = React.useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const navigate = useNavigate();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -51,6 +52,16 @@ export default function Header() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const handleProfile = () => {
+        handleCloseUserMenu();
+        navigate('/profile');
+    }
+
+    const handleLogout = () => {
+        handleCloseUserMenu();
+        navigate('/login', { replace: true });
+    }
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -97,10 +108,10 @@ export default function Header() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem onClick={handleCloseUserMenu}>
+                            <MenuItem onClick={handleProfile}>
                                 <Typography textAlign="center">Profile</Typography>
                             </MenuItem>
-                            <MenuItem onClick={handleCloseUserMenu}>
+                            <MenuItem onClick={handleLogout}>
                                 <Typography textAlign="center">Logout</Typography>
                             </MenuItem>
                         </Menu>
