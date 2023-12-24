@@ -89,7 +89,7 @@ export const BureauReportDashboard = (props) => {
     fileList((item) => item.BureauName === bureauName);
 
   if (fileListLoader || bureauReportLoader) {
-    return <SkeletonLoader />;
+    return <SkeletonLoader count={20} />;
   }
 
   if (fileListError) {

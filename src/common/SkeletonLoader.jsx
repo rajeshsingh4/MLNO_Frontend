@@ -2,8 +2,8 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
 
-export default function SkeletonLoader() {
-    const skeletonLength = 10;
+export default function SkeletonLoader(props) {
+    const skeletonLength = props.count || 10;
     return (
         <Box sx={{ width: '100%' }}>
             {

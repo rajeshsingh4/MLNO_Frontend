@@ -73,7 +73,7 @@ const CreatePullRequestList = (props) => {
     }
 
     if (cardListLoader) {
-        return <SkeletonLoader />
+        return <SkeletonLoader count={20} />
     }
 
     if (cardListError) {

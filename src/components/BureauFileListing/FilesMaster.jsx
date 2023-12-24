@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
+import SkeletonLoader from "../../common/SkeletonLoader";
 import FileMasterListService from '../../services/files.services';
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +30,7 @@ export const FilesMaster = () => {
 
     if (fileListLoader) {
         return (
-            <>Loading Files...</>
+            <SkeletonLoader count={20} />
         )
     }
 

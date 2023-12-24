@@ -2,6 +2,7 @@ import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import SkeletonLoader from "../../common/SkeletonLoader";
 import { actionListMap, modeLsitMap } from '../../common/constants';
 import PullRequestService from '../../services/pull-request.service';
 
@@ -30,7 +31,7 @@ const PullRequestList = (props) => {
 
     if (pullRequestLoader) {
         return (
-            <>Loading Pull Requests...</>
+            <SkeletonLoader count={20} />
         )
     }
 

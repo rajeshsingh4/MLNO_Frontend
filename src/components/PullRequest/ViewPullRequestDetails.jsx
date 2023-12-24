@@ -8,6 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import PullRequestService from '../../services/pull-request.service';
 import { useParams } from 'react-router-dom';
+import SkeletonLoader from '../../common/SkeletonLoader';
 
 const ViewPullRequestDetails = (props) => {
     const [pullRequestDetailsLoader, setPullRequestDetailsLoader] = React.useState(false);
@@ -34,7 +35,7 @@ const ViewPullRequestDetails = (props) => {
 
     if (pullRequestDetailsLoader) {
         return (
-            <>Loading Pull Requests Details...</>
+            <SkeletonLoader count={20} />
         )
     }
 

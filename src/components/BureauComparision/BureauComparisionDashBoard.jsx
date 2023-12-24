@@ -5,6 +5,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import FileMasterListService from '../../services/files.services';
+import SkeletonLoader from "../../common/SkeletonLoader";
 
 const bureauListSample = [
   {
@@ -64,7 +65,7 @@ const DashBoard = () => {
   const getSelectedBureauFiles = () => fileList.filter(file => selectedBureau.includes(file.BureauName));
 
   if(fileListLoader) {
-    return <>Loading....</>
+    return <SkeletonLoader count={20} />
   }
 
   if (fileListError) {
