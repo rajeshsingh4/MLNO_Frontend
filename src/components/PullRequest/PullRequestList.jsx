@@ -76,14 +76,17 @@ const PullRequestList = (props) => {
             if (key === 'field') {
                 basicColumnFields.headerName = 'Field';
                 basicColumnFields.description = 'Field';
+                basicColumnFields.valueGetter = (params) => params.row.field || '-';
             }
             if (key === 'originalValue') {
                 basicColumnFields.headerName = 'Original Value';
                 basicColumnFields.description = 'Original Value';
+                basicColumnFields.valueGetter = (params) => params.row.originalValue || '-';
             }
             if (key === 'newValue') {
                 basicColumnFields.headerName = 'New Value';
                 basicColumnFields.description = 'New Value';
+                basicColumnFields.valueGetter = (params) => params.row.newValue || '-';
             }
             if (key === 'mode') {
                 basicColumnFields.headerName = 'Mode';

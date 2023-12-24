@@ -30,7 +30,6 @@ const CreatePullRequestList = (props) => {
     }, []);
 
     const createPullRequest = (tableMeta) => {
-        console.log(tableMeta);
         setPullRequestModal({ open: true, rowData: tableMeta.rowData, tableMeta });
     }
 
@@ -45,7 +44,7 @@ const CreatePullRequestList = (props) => {
         let fieldToShow = ['trackingId', 'Bank', 'AWB_No', 'Product', 'Logo', 'PA_Flag', 'NRWC_Flag', 'Bureau_Total_TAT_Days', 'Bureau_TAT_Extra_Days_Passed', 'Bureau_Status', 'Courier_Status', 'Courier_TAT_Extra_Days_Passed', 'fileMaster']
 
         listKey.forEach((key, i) => {
-            let baseFieldObj = { name: listKey[i], label: listKey[i], options: { filter: true, print: false, display: (fieldToShow.includes(listKey[i]) ? true : 'excluded') } };
+            let baseFieldObj = { name: listKey[i], label: listKey[i], options: { filter: true, print: false, viewColumns: true, display: (fieldToShow.includes(listKey[i]) ? true : 'excluded') } };
             if (listKey[i] === 'fileMaster') {
                 baseFieldObj.name = "fileMaster.fileName";
                 baseFieldObj.label = "File Name";
@@ -57,6 +56,7 @@ const CreatePullRequestList = (props) => {
                         filter: false,
                         sort: false,
                         print: false,
+                        viewColumns: false,
                         customBodyRender: (value, tableMeta, updateValue) => (
                             <>
                                 <IconButton aria-label="edit" value={value} data-custom={{ tableMeta, updateValue }} onClick={() => createPullRequest(tableMeta)}>

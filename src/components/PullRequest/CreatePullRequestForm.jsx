@@ -11,31 +11,74 @@ import Box from "@mui/material/Box";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from "@mui/icons-material/Close";
 import { actionList, modeList } from "../../common/constants";
+import PullRequestService from '../../services/pull-request.service';
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 const initialFormData = () => ({
     action: "",
-    changeCommunicatedTo: "",
+    changeCommunicatedTo: 1,
     field: "",
     originalValue: "",
     newValue: "",
     mode: "",
+    ipaddress: '127.0.0.0',
+    cardId: '',
+    fileMasterId : '',
+    createdBy: null,
+    modifiedBy: null,
+    userId: null
 });
 
 const CreatePullRequestForm = (props) => {
     const { handleClose, pullRequestModal } = props;
-    const [formData, setFormData] = useState(initialFormData());
+    const { tableMeta: { rowIndex, tableData } } = pullRequestModal;
+    
+    const [formData, setFormData] = useState({
+        ...initialFormData(),
+        cardId: tableData[rowIndex].id,
+        fileMasterId: tableData[rowIndex].fileMasterId,
+        createdBy: 1,
+        modifiedBy: 1,
+        userId: 1
+    });
+
+    const navigate = useNavigate();
+    const [handleSnackBarOpen] = useOutletContext();
 
     const handleFormChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
+        const updatedData = {
             ...formData,
             [name]: value,
-        });
+        }
+        switch(name) {
+            case 'field': updatedData.originalValue = tableData[rowIndex][value];
+                break;
+            default:
+                break;
+        }
+        setFormData(updatedData);
     };
 
-    const handleUpdate = (e) => {
+    const handleUpdate = async (e) => {
         e.preventDefault();
         console.log("submit pull request Data", formData);
+        try {
+            const data = await PullRequestService.createPullRequest(formData);
+            console.log(data);
+            if (data.status !== 200 || data.data.status) {
+                handleSnackBarOpen('error', 'Error creating pull request');
+                console.error('There was an error creating the Pull Request. Please try again!!');
+            } else {
+                handleSnackBarOpen('success', 'Pull request created successfully');
+                handleClose();
+                setTimeout(() => {
+                    navigate('/pull-request/manage');
+                }, 500);
+            }
+        } catch(error) {
+            console.error('There was an error creating the Pull Request. Please try again!!', error);
+        }
     };
 
     return (
@@ -48,8 +91,7 @@ const CreatePullRequestForm = (props) => {
             aria-describedby="pull-request-item-description"
         >
             <DialogTitle id="scroll-dialog-title">
-                Create Pull Request for{" "}
-                {pullRequestModal.rowData && pullRequestModal.rowData[3]}
+                Create Pull Request for {pullRequestModal.rowData && pullRequestModal.rowData[3]}
             </DialogTitle>
             <IconButton
                 aria-label="close"
@@ -112,12 +154,18 @@ const CreatePullRequestForm = (props) => {
                                         id="field-item"
                                         label="Field"
                                         name="field"
-                                        type="text"
+                                        select
                                         value={formData.field}
                                         required
                                         fullWidth
                                         onChange={(e) => handleFormChange(e)}
-                                    />
+                                    >
+                                        {tableData && Object.keys(tableData[rowIndex]).map((rowKey, index) => (
+                                            <MenuItem key={index} value={rowKey}>
+                                                {rowKey}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
                                 </Grid>
                                 <Grid xs={12} sm={4}>
                                     <TextField

@@ -32,9 +32,10 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-export default function Header() {
+export default function Header(props) {
     const [open, setOpen] = React.useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+
     const navigate = useNavigate();
 
     const handleDrawerOpen = () => {
@@ -120,7 +121,7 @@ export default function Header() {
             </AppBar>
             <Sidebar drawerOpen={open} />
             <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
-                <Outlet />
+                <Outlet context={[props.handleSnackBarOpen]} />
             </Box>
         </Box>
     );
