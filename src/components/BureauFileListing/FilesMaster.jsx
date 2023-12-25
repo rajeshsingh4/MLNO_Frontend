@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
+import SkeletonLoader from "../../common/SkeletonLoader";
 import FileMasterListService from '../../services/files.services';
 import { useNavigate } from "react-router-dom";
 
-export const  FilesMaster = () => {
+export const FilesMaster = () => {
     const [fileListLoader, setFileListLoader] = React.useState(false);
     const [fileListError, setFileListError] = React.useState(false);
     const [fileList, setFileList] = React.useState([]);
@@ -29,7 +30,7 @@ export const  FilesMaster = () => {
 
     if (fileListLoader) {
         return (
-            <>Loading Files...</>
+            <SkeletonLoader count={20} />
         )
     }
 
@@ -89,20 +90,20 @@ export const  FilesMaster = () => {
         return columns;
     }
 
-  return (
-    <div style={{ height: 600, width: '100%' }}>
-      <DataGrid
-        loading={fileListLoader}
-        rows={fileList}
-        columns={getColumnMapping(fileList[0])}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 10 },
-          },
-        }}
-        pageSizeOptions={[10, 20, 50, 100]}
-        // checkboxSelection
-      />
-    </div>
-  );
+    return (
+        <div style={{ height: 600, width: '100%' }}>
+            <DataGrid
+                loading={fileListLoader}
+                rows={fileList}
+                columns={getColumnMapping(fileList[0])}
+                initialState={{
+                    pagination: {
+                        paginationModel: { page: 0, pageSize: 10 },
+                    },
+                }}
+                pageSizeOptions={[10, 20, 50, 100]}
+            // checkboxSelection
+            />
+        </div>
+    );
 }

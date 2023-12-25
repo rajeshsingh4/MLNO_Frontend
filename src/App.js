@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate, Outlet } from "react-router-dom";
 import "./App.css";
 import AuthService from "./services/auth.service";
 import Header from "./components/MenuBar/Header";
@@ -11,18 +11,27 @@ import BoardUser from "./components/BoardUser";
 import BoardModerator from "./components/BoardModerator";
 import BoardAdmin from "./components/BoardAdmin";
 import CardTracks from "./components/CardTrack/CardTracks";
-import BureauComparisionDashBoard from "./components/BureauComparision/DashBoard"
+import BureauComparisionDashBoard from "./components/BureauComparision/BureauComparisionDashBoard"
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import EventBus from "./common/EventBus";
 import { FilesMaster } from "./components/BureauFileListing/FilesMaster";
 import { FileTATReport } from "./components/BureauFileListing/FileTATReport";
 import { BureauReportDashboard } from "./components/BureauDashboard/BureauReportDashboard";
-import PullRequest from "./components/PullRequest/PullRequest";
+import CreatePullRequestList from "./components/PullRequest/CreatePullRequestList";
+import PullRequestList from "./components/PullRequest/PullRequestList";
+import ViewPullRequestDetails from "./components/PullRequest/ViewPullRequestDetails";
+import SnackbarMessage from "./common/SnackbarMessage";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [snackBarOpen, setSnackBarOpen] = React.useState({
+    open: false,
+    type: 'info',
+    message: null
+  });
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -51,24 +60,52 @@ const App = () => {
     setCurrentUser(undefined);
   };
 
+  const handleSnackBarOpen = (type, message) => {
+    setSnackBarOpen({
+      open: true,
+      type: type,
+      message: message
+    });
+  }
+
+  const handleCloseSnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackBarOpen({
+      open: false,
+      type: 'info',
+      message: null
+    });
+  };
+
   return (
     <>
+      <SnackbarMessage handleCloseSnackBar={handleCloseSnackBar} {...snackBarOpen} />
       <Routes>
-        <Route path="/login" element={<Login/>} />
-        <Route path="/register" element={<Register/>} />
-        <Route path='/' errorElement={<ErrorBoundary />} element={<Header />}>
-          <Route path="home" index={true} element={<Home/>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path='/' errorElement={<ErrorBoundary />} element={<Header handleSnackBarOpen={handleSnackBarOpen} />}>
+          <Route path="home" index={true} element={<Home />} />
           <Route path="files" element={<FilesMaster />} />
           <Route path="files/:id" element={<CardTracks fileDetails={location.state} navigate={navigate} />} />
           <Route path="file-tat-report" element={<FileTATReport />} />
           <Route path="bureau-comparision" element={<BureauComparisionDashBoard />} />
           <Route path="bureau-reports" element={<BureauReportDashboard />} />
-          <Route path="pull-request" element={<PullRequest />} />
-          <Route path="profile" element={<Profile/>} />
-          <Route path="admin" element={<BoardAdmin/>} />
-          <Route path="user" element={<BoardUser/>} />
-          <Route path="mod" element={<BoardModerator/>} />
-          {/* <Route path="/cardtrackUpdates" element={<CardTracksUpdates />} /> */}
+          <Route path="pull-request" element={<Outlet context={[handleSnackBarOpen]} />}>
+            <Route path='create' index element={<CreatePullRequestList />} />
+            <Route path='manage' element={<PullRequestList />} />
+            <Route path='view/:id' element={<ViewPullRequestDetails />} />
+          </Route>
+          <Route path="bureau-pull-request" element={<Outlet context={[handleSnackBarOpen]} />}>
+            <Route path='create' index element={<CreatePullRequestList />} />
+            <Route path='manage' element={<PullRequestList />} />
+            <Route path='view/:id' element={<ViewPullRequestDetails />} />
+          </Route>
+          <Route path="profile" element={<Profile />} />
+          <Route path="admin" element={<BoardAdmin />} />
+          <Route path="user" element={<BoardUser />} />
+          <Route path="mod" element={<BoardModerator />} />
         </Route>
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>

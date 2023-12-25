@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
+import SkeletonLoader from "../../common/SkeletonLoader";
 import FileMasterListService from '../../services/files.services';
 import { FileTATReportCardDetails } from './FileTATReportCardDetails';
 import {
@@ -52,7 +53,7 @@ export const FileTATReport = () => {
 
     if (fileTatLoader) {
         return (
-            <>Loading TAT Reports...</>
+            <SkeletonLoader count={20} />
         )
     }
 

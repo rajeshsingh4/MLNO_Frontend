@@ -8,6 +8,7 @@ import FileMasterListService from '../../services/files.services';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
+import SkeletonLoader from "../../common/SkeletonLoader";
 
 const bureauListSample = [
   {
@@ -35,14 +36,14 @@ const DashBoard = () => {
     const uniqueBureauData = [...new Map(bureauDetails.map(item => [item['BureauName'], item])).values()]; 
     setBureauList(uniqueBureauData);
   }
-  const getFileList = async () => {
+  const getBureauComparisonList = async () => {
     setFileListLoader(true);
     try {
       const bureauDetails = await FileMasterListService.getFileMasterList();
       setBureauGroupfun(bureauDetails.data);
       setFileList(bureauDetails.data);
     } catch (err) {
-      console.error("Error fetching list of files in dashboard ", err);
+      console.error("Error fetching list of files for Bureau Comparison dashboard ", err);
       setFileListError(true);
     } finally {
       setFileListLoader(false);
@@ -50,7 +51,7 @@ const DashBoard = () => {
   };
 
   React.useEffect(() => {
-    getFileList();
+    getBureauComparisonList();
   }, []);
 
   const handleBureauSelect = (e, bureau) => {
@@ -67,7 +68,7 @@ const DashBoard = () => {
   const getSelectedBureauFiles = () => fileList.filter(file => selectedBureau.includes(file.BureauName));
 
   if(fileListLoader) {
-    return <>Loading....</>
+    return <SkeletonLoader count={20} />
   }
 
   if (fileListError) {
