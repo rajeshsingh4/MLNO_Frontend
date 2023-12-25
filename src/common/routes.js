@@ -97,17 +97,17 @@ export const ROUTES_LIST = [
         defaultColor: 'inherit',
         deafultBgColor: '#ffffff',
         childRoutes: [
-            {
-                title: 'View Pull Request',
-                label: 'View Pull Request',
-                path: '/bureau-pull-request/create',
-                index: true,
-                exact: true,
-                defaultColor: 'inherit',
-                deafultBgColor: '#ffffff',
-                selectedColor: '#1976d2',
-                selectedBgColor: '#f0f8ff',
-            },
+            // {
+            //     title: 'View Pull Request',
+            //     label: 'View Pull Request',
+            //     path: '/bureau-pull-request/create',
+            //     index: true,
+            //     exact: true,
+            //     defaultColor: 'inherit',
+            //     deafultBgColor: '#ffffff',
+            //     selectedColor: '#1976d2',
+            //     selectedBgColor: '#f0f8ff',
+            // },
             {
                 title: 'Manage Pull Request',
                 label: 'Manage Pull Request',

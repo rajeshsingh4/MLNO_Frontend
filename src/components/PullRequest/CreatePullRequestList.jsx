@@ -84,6 +84,7 @@ const CreatePullRequestList = (props) => {
         <>
             <MUIDataTable
                 // title="Name of Table"
+                className="mui-data-table create-pull-request-list"
                 data={cardList}
                 columns={getColumnMapping(cardList[0] || [])}
                 options={{

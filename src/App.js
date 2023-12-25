@@ -6,7 +6,7 @@ import Header from "./components/MenuBar/Header";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
-import Profile from "./components/Profile";
+import Profile from "./components/User/Profile";
 import BoardUser from "./components/BoardUser";
 import BoardModerator from "./components/BoardModerator";
 import BoardAdmin from "./components/BoardAdmin";
@@ -98,7 +98,7 @@ const App = () => {
             <Route path='view/:id' element={<ViewPullRequestDetails />} />
           </Route>
           <Route path="bureau-pull-request" element={<Outlet context={[handleSnackBarOpen]} />}>
-            <Route path='create' index element={<CreatePullRequestList />} />
+            {/* <Route path='create' index element={<CreatePullRequestList />} /> */}
             <Route path='manage' element={<PullRequestList />} />
             <Route path='view/:id' element={<ViewPullRequestDetails />} />
           </Route>

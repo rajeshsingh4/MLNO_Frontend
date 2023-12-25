@@ -152,9 +152,10 @@ export const FileTATReport = () => {
     }
 
     return (
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '96vw' }}>
             <ThemeProvider theme={theme}>
                 <DataGrid
+                    className='mui-data-grid file-master'
                     loading={fileTatLoader}
                     rows={fileTatReport}
                     columns={getColumnMapping(fileTatReport[0])}

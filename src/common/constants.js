@@ -90,7 +90,7 @@ export const breadcrumbNameMap = {
     '/bureau-comparision': 'Bureau Comparision',
     '/bureau-reports': 'Pending Bureau Reports',
     '/files': 'File Wise Tracking',
-    '/files:/id': 'File Wise Tracking Cards',
+    '/files/:id': 'File Wise Tracking Cards',
     '/file-tat-report': 'File TAT Report',
     '/pull-request': 'Pull Request',
     '/pull-request/create': 'Create Pull Request',

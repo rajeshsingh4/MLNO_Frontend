@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 import SkeletonLoader from '../../common/SkeletonLoader';
 
 const ViewPullRequestDetails = (props) => {
-    const [pullRequestDetailsLoader, setPullRequestDetailsLoader] = React.useState(false);
+    const [pullRequestDetailsLoader, setPullRequestDetailsLoader] = React.useState(true);
     const [pullRequestDetailsError, setPullRequestDetailsError] = React.useState(false);
     const [pullRequestDetails, setPullRequestDetails] = React.useState({});
     const { id } = useParams();
@@ -49,69 +49,17 @@ const ViewPullRequestDetails = (props) => {
     }
     
     const getColumnMapping = (row) => {
-        if (!row || (row && row.length === 0)) {
-            return [];
-        }
-        let columns = [];
-        const hiddenColumns = ['updatedAt', 'fileMasterId', 'createdBy', 'modifiedBy', 'cardId'];
-        const rowFieldKeys = Object.keys(row);
-        rowFieldKeys.forEach(key => {
-            const basicColumnFields = {
-                field: key,
-                headerName: key,
-                description: key, // shows as tooltip
-                sortable: true,
-                width: 200,
-                editable: false,
-            };
-            if (key === 'id') {
-                basicColumnFields.headerName = 'S. No.';
-                basicColumnFields.description = 'S. No.';
-                basicColumnFields.width = 80;
-            }
-            if (key === 'action') {
-                basicColumnFields.headerName = 'Action';
-                basicColumnFields.description = 'Action';
-            }
-            if (key === 'changeCommunicatedTo') {
-                basicColumnFields.headerName = 'Change Communicated To';
-                basicColumnFields.description = 'Change Communicated To';
-            }
-            if (key === 'field') {
-                basicColumnFields.headerName = 'Field';
-                basicColumnFields.description = 'Field';
-            }
-            if (key === 'originalValue') {
-                basicColumnFields.headerName = 'Original Value';
-                basicColumnFields.description = 'Original Value';
-            }
-            if (key === 'newValue') {
-                basicColumnFields.headerName = 'New Value';
-                basicColumnFields.description = 'New Value';
-            }
-            if (key === 'mode') {
-                basicColumnFields.headerName = 'Mode';
-                basicColumnFields.description = 'Mode';
-            }
-            if (key === 'ipaddress') {
-                basicColumnFields.headerName = 'IP Address';
-                basicColumnFields.description = 'IP Address';
-            }
-            if (key === 'serviceRequest') {
-                basicColumnFields.headerName = 'Service Request';
-                basicColumnFields.description = 'Service Request';
-            }
-            if (key === 'createdAt') {
-                basicColumnFields.headerName = 'Date & Time';
-                basicColumnFields.description = 'Date & Time';
-                basicColumnFields.valueGetter = (params) => (new Date(params.row.createdAt)).getTime();
-            }
-            if (!hiddenColumns.includes(key)) {
-                columns.push(basicColumnFields);
-            }
-        });
-        return columns;
-    }
+		let fieldList = [];
+		let listKey = Object.keys(row);
+
+		let fieldToShow = ['trackingId','Bank','AWB_No','Product','Logo','PA_Flag','NRWC_Flag','Bureau_Total_TAT_Days','Bureau_TAT_Extra_Days_Passed','Bureau_Status','Courier_Status','Courier_TAT_Extra_Days_Passed']
+
+		listKey.forEach((key, i) => {
+			let baseFieldObj = { name: listKey[i], options: { filter: true, viewColumns: true, display: (fieldToShow.includes(listKey[i]) ? true : false) } };
+            fieldList.push(baseFieldObj);
+		});
+		return fieldList;
+	}
 
     return (
         <div style={{ height: 600, width: '100%' }}>
@@ -170,10 +118,11 @@ const ViewPullRequestDetails = (props) => {
                 </Table>
             </TableContainer>
             <TableContainer>
-                {/* <DataGrid
+                <DataGrid
+                    className='mui-data-grid file-master'
                     loading={pullRequestDetailsLoader}
-                    rows={pullRequestDetails.cards}
-                    columns={getColumnMapping(pullRequestDetails.cards[0])}
+                    rows={[pullRequestDetails.card]}
+                    columns={getColumnMapping([pullRequestDetails.card])}
                     initialState={{
                         pagination: {
                             paginationModel: { page: 0, pageSize: 10 },
@@ -181,7 +130,7 @@ const ViewPullRequestDetails = (props) => {
                     }}
                     pageSizeOptions={[10, 20, 50, 100]}
                     // checkboxSelection
-                /> */}
+                />
             </TableContainer>
         </div>
     );

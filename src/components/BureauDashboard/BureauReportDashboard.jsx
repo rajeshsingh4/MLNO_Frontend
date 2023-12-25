@@ -24,7 +24,10 @@ export const BureauReportDashboard = (props) => {
   const [bureauReport, setBureauReport] = React.useState(null);
   const [bureauReportLoader, setBureauReportLoader] = React.useState(false);
   const [bureauReportError, setBureauReportError] = React.useState(false);
-  const [summaryDataPointsToDisplay] = React.useState(['TotalCountAllocated', 'countDispatched']);
+  const [summaryDataPointsToDisplay] = React.useState([
+    "TotalCountAllocated",
+    "countDispatched",
+  ]);
   /* const [summaryDataPointsToDisplay]=React.useState(['TotalCountAllocated','countDispatched']);
     const [tagLabel]=React.useState({
         'TotalCountAllocated' : 'Total Count Allocated',
@@ -113,8 +116,8 @@ export const BureauReportDashboard = (props) => {
               label="Select Bureau"
               onChange={(e) => handleBureauSelect(e)}
             >
-              {bureauList.map((item) => (
-                <MenuItem key={item.BureauName} value={item.BureauName}>
+              {bureauList.map((item, index) => (
+                <MenuItem key={index} value={item.BureauName}>
                   {item.BureauName}
                 </MenuItem>
               ))}
@@ -253,7 +256,6 @@ export const BureauReportDashboard = (props) => {
                     bureauReport.oldestDate.TATDateLIST.map((d, index) => {
                       return <TableCell key={index}>{d}</TableCell>;
                     })}
-
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -264,8 +266,7 @@ export const BureauReportDashboard = (props) => {
                       return (
                         <TableCell key={index}>
                           {
-                            bureauReport.oldestDate.TATWiseGroup[d]
-                              .TotalCountAllocated
+                            bureauReport.oldestDate.TATWiseGroup[d].TotalCountAllocated
                           }
                         </TableCell>
                       );
@@ -278,8 +279,7 @@ export const BureauReportDashboard = (props) => {
                       return (
                         <TableCell key={index}>
                           {
-                            bureauReport.oldestDate.TATWiseGroup[d]
-                              .countDispatched
+                            bureauReport.oldestDate.TATWiseGroup[d].countDispatched
                           }
                         </TableCell>
                       );
@@ -291,66 +291,53 @@ export const BureauReportDashboard = (props) => {
                     bureauReport.oldestDate.TATDateLIST.map((d, index) => {
                       return (
                         <TableCell key={index}>
-                          {
-                            bureauReport.oldestDate.TATWiseGroup[d]
-                              .countPending
-                          }
+                          {bureauReport.oldestDate.TATWiseGroup[d].countPending}
                         </TableCell>
                       );
                     })}
                 </TableRow>
                 <TableRow>
-                  <TableCell>Beyond  TAT</TableCell>
+                  <TableCell>Beyond TAT</TableCell>
                   {bureauReport &&
                     bureauReport.oldestDate.TATDateLIST.map((d, index) => {
                       return (
                         <TableCell d={index}>
-                          {
-                            bureauReport.oldestDate.TATWiseGroup[d]
-                              .beyondTAT
-                          }
+                          {bureauReport.oldestDate.TATWiseGroup[d].beyondTAT}
                         </TableCell>
                       );
                     })}
                 </TableRow>
                 <TableRow>
-                  <TableCell>Within  TAT</TableCell>
+                  <TableCell>Within TAT</TableCell>
                   {bureauReport &&
                     bureauReport.oldestDate.TATDateLIST.map((d, index) => {
                       return (
                         <TableCell key={index}>
-                          {
-                            bureauReport.oldestDate.TATWiseGroup[d]
-                              .withinTAT
-                          }
+                          {bureauReport.oldestDate.TATWiseGroup[d].withinTAT}
                         </TableCell>
                       );
                     })}
                 </TableRow>
                 <TableRow>
-                  <TableCell>Beyond  TAT %</TableCell>
+                  <TableCell>Beyond TAT %</TableCell>
                   {bureauReport &&
                     bureauReport.oldestDate.TATDateLIST.map((d, index) => {
                       return (
                         <TableCell key={index}>
-                          {
-                            bureauReport.oldestDate.TATWiseGroup[d]
-                              .beyondTATPercentage
-                          }%
+                          { bureauReport.oldestDate.TATWiseGroup[d].beyondTATPercentage } %
                         </TableCell>
                       );
                     })}
                 </TableRow>
                 <TableRow>
-                  <TableCell>Overall % within  TAT</TableCell>
+                  <TableCell>Overall % within TAT</TableCell>
                   {bureauReport &&
                     bureauReport.oldestDate.TATDateLIST.map((d, index) => {
                       return (
                         <TableCell key={index}>
                           {
-                            bureauReport.oldestDate.TATWiseGroup[d]
-                              .overallPercentageWithinTAT
-                          }%
+                            bureauReport.oldestDate.TATWiseGroup[d].overallPercentageWithinTAT
+                          } %
                         </TableCell>
                       );
                     })}
@@ -362,25 +349,22 @@ export const BureauReportDashboard = (props) => {
                       return (
                         <TableCell key={index}>
                           {
-                            bureauReport.oldestDate.TATWiseGroup[d]
-                              .willBeOutsideTATToday
+                            bureauReport.oldestDate.TATWiseGroup[d].willBeOutsideTATToday
                           }
                         </TableCell>
                       );
                     })}
                 </TableRow>
                 <TableRow>
-                  <TableCell>Outof  TAT (Tommorow)</TableCell>
-                  {bureauReport &&
-                    bureauReport.oldestDate.TATDateLIST.map((d, index) => {
+                  <TableCell>Outof TAT (Tommorow)</TableCell>
+                  {bureauReport && bureauReport.oldestDate.TATDateLIST.map((d, index) => {
                       return (
                         <TableCell key={index}>
                           {
-                            bureauReport.oldestDate.TATWiseGroup[d]
-                              .willBeOutsideTATTommorow
+                            bureauReport.oldestDate.TATWiseGroup[d].willBeOutsideTATTommorow
                           }
                         </TableCell>
-                      );
+                      )
                     })}
                 </TableRow>
               </TableBody>

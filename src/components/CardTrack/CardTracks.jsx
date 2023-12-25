@@ -213,6 +213,7 @@ class CardTracks extends React.Component {
 						<Button sx={{ mb: 2 }} variant="outlined" onClick={this.goBackToFiles}>Go Back</Button>
 					</div>
 					<MUIDataTable
+						className="mui-data-table card-track"
 						title={"Track Cards"}
 						data={data}
 						columns={columns}

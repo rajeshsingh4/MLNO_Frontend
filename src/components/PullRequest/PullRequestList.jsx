@@ -120,8 +120,9 @@ const PullRequestList = (props) => {
     }
 
     return (
-        <div style={{ height: 600, width: '100%' }}>
+        <div style={{ height: 600, width: '96vw' }}>
             <DataGrid
+                className='mui-data-grid file-master'
                 loading={pullRequestLoader}
                 rows={pullRequestList}
                 columns={getColumnMapping(pullRequestList[0])}
