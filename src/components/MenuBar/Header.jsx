@@ -15,6 +15,7 @@ import UserService from "../../services/user.service";
 import AuthService from "../../services/auth.service";
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Sidebar from './Sidebar';
+import AppBreadCrumbs from './AppBreadCrumbs';
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
@@ -132,6 +133,7 @@ export default function Header(props) {
             </AppBar>
             <Sidebar drawerOpen={open} />
             <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+                <AppBreadCrumbs />
                 <Outlet context={[props.handleSnackBarOpen]} />
             </Box>
         </Box>

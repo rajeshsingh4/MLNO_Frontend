@@ -5,28 +5,10 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import FileMasterListService from '../../services/files.services';
-import Typography from '@mui/material/Typography';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
 import SkeletonLoader from "../../common/SkeletonLoader";
 
-const bureauListSample = [
-  {
-    id: 1,
-    name: 'BureauName_a'
-  },
-  {
-    id: 2,
-    name: 'BureauName_b'
-  },
-  {
-    id: 3,
-    name: 'BureauName_c'
-  }
-]
-
 const DashBoard = () => {
-  const [bureauList, setBureauList] = React.useState(bureauListSample);
+  const [bureauList, setBureauList] = React.useState([]);
   const [fileList, setFileList] = React.useState([]);
   const [selectedBureau, setSelectedBureau] = React.useState([]);
   const [fileListLoader, setFileListLoader] = React.useState(false);
@@ -77,14 +59,6 @@ const DashBoard = () => {
 
   return (
     <div className="bureau-dashboard" id="dashboard">
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" color="inherit" href="/">
-          Home
-        </Link>
-        
-        <Typography color="text.primary">Bureau Comparision</Typography>
-      </Breadcrumbs>
-      <br/>
       <Grid container spacing={3}>
         <Grid xs={12} md={6}>
           <h3>Bureau Dashboard</h3>

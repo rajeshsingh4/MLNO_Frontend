@@ -17,7 +17,7 @@ const AppBreadCrumbs = (props) => {
     const pathnames = location.pathname.split('/').filter((x) => x);
 
     return (
-        <Breadcrumbs aria-label="breadcrumb">
+        <Breadcrumbs component='div' aria-label="breadcrumb" sx={{ pb: 2 }}>
             <LinkRouter underline="hover" color="inherit" to="/">
                 Home
             </LinkRouter>
