@@ -18,6 +18,8 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import UserService from "../../services/user.service";
+import AuthService from "../../services/auth.service";
 import { ROUTES_LIST } from '../../common/routes';
 
 const drawerWidth = 260;
@@ -80,7 +82,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function Header() {
     const [open, setOpen] = React.useState(false);
+    const [menuList,setMenuList] = React.useState([]);
     const location = useLocation();
+    // const currentUser = AuthService.getCurrentUser();
+
+    React.useEffect(() => {
+        const currentUser = AuthService.getCurrentUser();
+        const menu = UserService.getMenu();
+        
+      }, []);
+
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -115,7 +126,8 @@ export default function Header() {
                 <Box sx={{ overflow: 'auto hidden' }}>
                     <List>
                         {ROUTES_LIST.map((route, index) => {
-                            if (route.hidden) return <React.Fragment key={index}></React.Fragment>;
+                            if (route.hidden ) return <React.Fragment key={index}></React.Fragment>;
+                            
                             return <React.Fragment key={index}>
                                 <ListItem disablePadding 
                                     sx={{

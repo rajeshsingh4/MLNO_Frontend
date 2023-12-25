@@ -5,6 +5,9 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import FileMasterListService from '../../services/files.services';
+import Typography from '@mui/material/Typography';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
 
 const bureauListSample = [
   {
@@ -73,6 +76,14 @@ const DashBoard = () => {
 
   return (
     <div className="bureau-dashboard" id="dashboard">
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link underline="hover" color="inherit" href="/">
+          Home
+        </Link>
+        
+        <Typography color="text.primary">Bureau Comparision</Typography>
+      </Breadcrumbs>
+      <br/>
       <Grid container spacing={3}>
         <Grid xs={12} md={6}>
           <h3>Bureau Dashboard</h3>
