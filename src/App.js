@@ -97,6 +97,11 @@ const App = () => {
             <Route path='manage' element={<PullRequestList />} />
             <Route path='view/:id' element={<ViewPullRequestDetails />} />
           </Route>
+          <Route path="bureau-pull-request" element={<Outlet context={[handleSnackBarOpen]} />}>
+            <Route path='create' index element={<CreatePullRequestList />} />
+            <Route path='manage' element={<PullRequestList />} />
+            <Route path='view/:id' element={<ViewPullRequestDetails />} />
+          </Route>
           <Route path="profile" element={<Profile />} />
           <Route path="admin" element={<BoardAdmin />} />
           <Route path="user" element={<BoardUser />} />
