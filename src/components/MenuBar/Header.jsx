@@ -10,41 +10,10 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import UserService from "../../services/user.service";
 import AuthService from "../../services/auth.service";
-import { ROUTES_LIST } from '../../common/routes';
-
-const drawerWidth = 260;
-
-const openedMixin = (theme) => ({
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-});
-
-const closedMixin = (theme) => ({
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: `calc(${theme.spacing(8)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: 0,
-    },
-});
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Outlet, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
 const AppBar = styled(MuiAppBar, {
@@ -67,15 +36,14 @@ const AppBar = styled(MuiAppBar, {
 
 export default function Header(props) {
     const [open, setOpen] = React.useState(false);
-    const [menuList,setMenuList] = React.useState([]);
+    const [menuList, setMenuList] = React.useState([]);
     const location = useLocation();
     // const currentUser = AuthService.getCurrentUser();
 
     React.useEffect(() => {
         const currentUser = AuthService.getCurrentUser();
-        const menu = UserService.getMenu();
-        
-      }, []);
+        // const menu = UserService.getMenu();
+    }, []);
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -162,48 +130,6 @@ export default function Header(props) {
                     </Box>
                 </Toolbar>
             </AppBar>
-            <Drawer variant="permanent" open={open}>
-                <Toolbar />
-                <Box sx={{ overflow: 'auto hidden' }}>
-                    <List>
-                        {ROUTES_LIST.map((route, index) => {
-                            if (route.hidden ) return <React.Fragment key={index}></React.Fragment>;
-                            
-                            return <React.Fragment key={index}>
-                                <ListItem disablePadding 
-                                    sx={{
-                                        display: 'block',
-                                        color: location.pathname === route.path ? route.selectedColor : route.defaultColor,
-                                        backgroundColor: location.pathname === route.path ? route.selectedBgColor : route.deafultBgColor
-                                    }}
-                                >
-                                    <ListItemButton
-                                        LinkComponent={Link}
-                                        to={route.path}
-                                        sx={{
-                                            minHeight: 48,
-                                            justifyContent: open ? 'initial' : 'center',
-                                            px: 2.5
-                                        }}
-                                    >
-                                        <ListItemIcon
-                                            sx={{
-                                                minWidth: 0,
-                                                mr: open ? 3 : 'auto',
-                                                justifyContent: 'center',
-                                            }}
-                                        >
-                                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                        </ListItemIcon>
-                                        <ListItemText primary={route.label} sx={{ opacity: open ? 1 : 0 }} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <Divider component="li" />
-                            </React.Fragment>
-                        })}
-                    </List>
-                </Box>
-            </Drawer>
             <Sidebar drawerOpen={open} />
             <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
                 <Outlet context={[props.handleSnackBarOpen]} />
