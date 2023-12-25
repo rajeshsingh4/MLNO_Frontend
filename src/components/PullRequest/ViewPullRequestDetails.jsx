@@ -4,11 +4,11 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
+import Paper from '@mui/material/Paper';
 import TableRow from '@mui/material/TableRow';
-import PullRequestService from '../../services/pull-request.service';
 import { useParams } from 'react-router-dom';
 import SkeletonLoader from '../../common/SkeletonLoader';
+import PullRequestService from '../../services/pull-request.service';
 
 const ViewPullRequestDetails = (props) => {
     const [pullRequestDetailsLoader, setPullRequestDetailsLoader] = React.useState(true);
@@ -47,22 +47,36 @@ const ViewPullRequestDetails = (props) => {
         const tempDate = new Date(date);
         return `${tempDate.getHours()}:${tempDate.getMinutes()}:${tempDate.getSeconds()}`;
     }
-    
+
     const getColumnMapping = (row) => {
-		let fieldList = [];
-		let listKey = Object.keys(row);
+        let fieldList = [];
+        let listKey = Object.keys(row);
 
-		let fieldToShow = ['trackingId','Bank','AWB_No','Product','Logo','PA_Flag','NRWC_Flag','Bureau_Total_TAT_Days','Bureau_TAT_Extra_Days_Passed','Bureau_Status','Courier_Status','Courier_TAT_Extra_Days_Passed']
+        let fieldToShow = ['id', 'Bank', 'AWB_No', 'Product', 'Logo', 'PA_Flag', 'NRWC_Flag', 'Bureau_Total_TAT_Days', 'Bureau_TAT_Extra_Days_Passed', 'Bureau_Status', 'Courier_Status', 'Courier_TAT_Extra_Days_Passed'];
 
-		listKey.forEach((key, i) => {
-			let baseFieldObj = { name: listKey[i], options: { filter: true, viewColumns: true, display: (fieldToShow.includes(listKey[i]) ? true : false) } };
-            fieldList.push(baseFieldObj);
-		});
-		return fieldList;
-	}
+        listKey.forEach(key => {
+            const basicColumnFields = {
+                field: key,
+                headerName: key.split('_').join(' '),
+                description: key.split('_').join(' '), // shows as tooltip
+                sortable: true,
+                width: 200,
+                editable: false,
+            };
+            if (key === 'id') {
+                basicColumnFields.headerName = 'S. No.';
+                basicColumnFields.description = 'S. No.';
+                basicColumnFields.width = 80;
+            }
+            if (fieldToShow.includes(key)) {
+                fieldList.push(basicColumnFields);
+            }
+        });
+        return fieldList;
+    }
 
     return (
-        <div style={{ height: 600, width: '100%' }}>
+        <>
             <TableContainer >
                 <Table>
                     <TableBody>
@@ -117,12 +131,12 @@ const ViewPullRequestDetails = (props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TableContainer>
+            <TableContainer component={Paper} sx={{ mt: 3 }}>
                 <DataGrid
                     className='mui-data-grid file-master'
                     loading={pullRequestDetailsLoader}
                     rows={[pullRequestDetails.card]}
-                    columns={getColumnMapping([pullRequestDetails.card])}
+                    columns={getColumnMapping(pullRequestDetails.card)}
                     initialState={{
                         pagination: {
                             paginationModel: { page: 0, pageSize: 10 },
@@ -132,7 +146,7 @@ const ViewPullRequestDetails = (props) => {
                     // checkboxSelection
                 />
             </TableContainer>
-        </div>
+        </>
     );
 }
 

@@ -19,8 +19,8 @@ export const FileTATReportCardDetails = (props) => {
     listKey.forEach((key, i) => {
       const baseFieldObj = {
         field: key,
-        headerName: key,
-        description: key, // shows as tooltip
+        headerName: key.split('_').join(' '),
+        description: key.split('_').join(' '), // shows as tooltip
         sortable: true,
         width: 200,
         editable: false,

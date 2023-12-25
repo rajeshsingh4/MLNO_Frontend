@@ -95,9 +95,11 @@ export const breadcrumbNameMap = {
     '/pull-request': 'Pull Request',
     '/pull-request/create': 'Create Pull Request',
     '/pull-request/manage': 'Manage Pull Request',
-    '/pull-request/view/:id': 'View Pull Request',
+    '/pull-request/view': 'View Pull Request',
+    '/pull-request/view/:id': 'View Pull Request Details',
     '/bureau-pull-request': 'Bureau Pull Request',
     '/bureau-pull-request/create': 'View Pull Request',
     '/bureau-pull-request/manage': 'Manage Pull Request',
+    '/bureau-pull-request/view': 'View Pull Request Details',
     '/bureau-pull-request/view/:id': 'View Pull Request',
 };

@@ -120,7 +120,7 @@ const PullRequestList = (props) => {
     }
 
     return (
-        <div style={{ height: 600, width: '96vw' }}>
+        <>
             <DataGrid
                 className='mui-data-grid file-master'
                 loading={pullRequestLoader}
@@ -134,7 +134,7 @@ const PullRequestList = (props) => {
                 pageSizeOptions={[10, 20, 50, 100]}
                 // checkboxSelection
             />
-        </div>
+        </>
     );
 }
 

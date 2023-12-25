@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, useLocation, useNavigate, Outlet } from "react-router-dom";
 import "./App.css";
+import { Routes, Route, useLocation, useNavigate, Outlet } from "react-router-dom";
 import AuthService from "./services/auth.service";
 import Header from "./components/MenuBar/Header";
 import Login from "./components/Login";
@@ -86,21 +86,27 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path='/' errorElement={<ErrorBoundary />} element={<Header handleSnackBarOpen={handleSnackBarOpen} />}>
-          <Route path="home" index={true} element={<Home />} />
+          <Route index element={<Home />} />
           <Route path="files" element={<FilesMaster />} />
           <Route path="files/:id" element={<CardTracks fileDetails={location.state} navigate={navigate} />} />
           <Route path="file-tat-report" element={<FileTATReport />} />
           <Route path="bureau-comparision" element={<BureauComparisionDashBoard />} />
           <Route path="bureau-reports" element={<BureauReportDashboard />} />
           <Route path="pull-request" element={<Outlet context={[handleSnackBarOpen]} />}>
-            <Route path='create' index element={<CreatePullRequestList />} />
+            <Route index element={<CreatePullRequestList />} />
+            <Route path='create' element={<CreatePullRequestList />} />
             <Route path='manage' element={<PullRequestList />} />
-            <Route path='view/:id' element={<ViewPullRequestDetails />} />
+            <Route path='view' element={<Outlet context={[handleSnackBarOpen]} />}>
+              <Route path=':id' element={<ViewPullRequestDetails />} />
+            </Route>
           </Route>
           <Route path="bureau-pull-request" element={<Outlet context={[handleSnackBarOpen]} />}>
             {/* <Route path='create' index element={<CreatePullRequestList />} /> */}
+            <Route index element={<PullRequestList />} />
             <Route path='manage' element={<PullRequestList />} />
-            <Route path='view/:id' element={<ViewPullRequestDetails />} />
+            <Route path='view' element={<Outlet context={[handleSnackBarOpen]} />}>
+              <Route path=':id' element={<ViewPullRequestDetails />} />
+            </Route>
           </Route>
           <Route path="profile" element={<Profile />} />
           <Route path="admin" element={<BoardAdmin />} />

@@ -91,7 +91,7 @@ export const FilesMaster = () => {
     }
 
     return (
-        <div style={{ height: 600, width: '96vw' }}>
+        <>
             <DataGrid
                 className='mui-data-grid file-master'
                 loading={fileListLoader}
@@ -103,8 +103,8 @@ export const FilesMaster = () => {
                     },
                 }}
                 pageSizeOptions={[10, 20, 50, 100]}
-            // checkboxSelection
+                // checkboxSelection
             />
-        </div>
+        </>
     );
 }

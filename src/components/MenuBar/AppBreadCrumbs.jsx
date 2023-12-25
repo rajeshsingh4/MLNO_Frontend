@@ -23,7 +23,13 @@ const AppBreadCrumbs = (props) => {
             </LinkRouter>
             {pathnames.map((value, index) => {
                 const last = index === pathnames.length - 1;
-                const to = `/${pathnames.slice(0, index + 1).join('/')}`;
+                let to = `/${pathnames.slice(0, index + 1).join('/')}`;
+
+                if (last && !breadcrumbNameMap[to]) {
+                    const tempTo = to.split('/');
+                    tempTo.splice(tempTo.length - 1);
+                    to = `${tempTo.join('/')}/:id`;
+                }
 
                 return last ? (
                     <Typography color="text.primary" key={to}>
