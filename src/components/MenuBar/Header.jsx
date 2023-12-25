@@ -47,6 +47,12 @@ const closedMixin = (theme) => ({
     },
 });
 
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import UserService from "../../services/user.service";
+import AuthService from "../../services/auth.service";
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Sidebar from './Sidebar';
+import AppBreadCrumbs from './AppBreadCrumbs';
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
@@ -68,15 +74,14 @@ const AppBar = styled(MuiAppBar, {
 
 export default function Header(props) {
     const [open, setOpen] = React.useState(false);
-    const [menuList,setMenuList] = React.useState([]);
+    const [menuList, setMenuList] = React.useState([]);
     const location = useLocation();
     // const currentUser = AuthService.getCurrentUser();
 
     React.useEffect(() => {
         const currentUser = AuthService.getCurrentUser();
-        const menu = UserService.getMenu();
-        
-      }, []);
+        // const menu = UserService.getMenu();
+    }, []);
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -163,50 +168,9 @@ export default function Header(props) {
                     </Box>
                 </Toolbar>
             </AppBar>
-            <Drawer variant="permanent" open={open}>
-                <Toolbar />
-                <Box sx={{ overflow: 'auto hidden' }}>
-                    <List>
-                        {ROUTES_LIST.map((route, index) => {
-                            if (route.hidden ) return <React.Fragment key={index}></React.Fragment>;
-                            
-                            return <React.Fragment key={index}>
-                                <ListItem disablePadding 
-                                    sx={{
-                                        display: 'block',
-                                        color: location.pathname === route.path ? route.selectedColor : route.defaultColor,
-                                        backgroundColor: location.pathname === route.path ? route.selectedBgColor : route.deafultBgColor
-                                    }}
-                                >
-                                    <ListItemButton
-                                        LinkComponent={Link}
-                                        to={route.path}
-                                        sx={{
-                                            minHeight: 48,
-                                            justifyContent: open ? 'initial' : 'center',
-                                            px: 2.5
-                                        }}
-                                    >
-                                        <ListItemIcon
-                                            sx={{
-                                                minWidth: 0,
-                                                mr: open ? 3 : 'auto',
-                                                justifyContent: 'center',
-                                            }}
-                                        >
-                                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                        </ListItemIcon>
-                                        <ListItemText primary={route.label} sx={{ opacity: open ? 1 : 0 }} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <Divider component="li" />
-                            </React.Fragment>
-                        })}
-                    </List>
-                </Box>
-            </Drawer>
             <Sidebar drawerOpen={open} />
             <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+                <AppBreadCrumbs />
                 <Outlet context={[props.handleSnackBarOpen]} />
             </Box>
         </Box>

@@ -84,3 +84,20 @@ export const modeLsitMap = {
     inperson: 'In-Person',
     other: 'Other'
 }
+
+export const breadcrumbNameMap = {
+    '/profile': 'User Profile',
+    '/bureau-comparision': 'Bureau Comparision',
+    '/bureau-reports': 'Pending Bureau Reports',
+    '/files': 'File Wise Tracking',
+    '/files:/id': 'File Wise Tracking Cards',
+    '/file-tat-report': 'File TAT Report',
+    '/pull-request': 'Pull Request',
+    '/pull-request/create': 'Create Pull Request',
+    '/pull-request/manage': 'Manage Pull Request',
+    '/pull-request/view/:id': 'View Pull Request',
+    '/bureau-pull-request': 'Bureau Pull Request',
+    '/bureau-pull-request/create': 'View Pull Request',
+    '/bureau-pull-request/manage': 'Manage Pull Request',
+    '/bureau-pull-request/view/:id': 'View Pull Request',
+};

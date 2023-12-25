@@ -93,6 +93,7 @@ export const ROUTES_LIST = [
         title: 'Bureau Pull Request',
         description: 'Bureau views/takes action on pull request',
         label: 'Bureau Pull Request',
+        roles:['user'],
         defaultColor: 'inherit',
         deafultBgColor: '#ffffff',
         childRoutes: [
