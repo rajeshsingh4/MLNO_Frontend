@@ -16,10 +16,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation,useNavigate } from 'react-router-dom';
 import UserService from "../../services/user.service";
 import AuthService from "../../services/auth.service";
 import { ROUTES_LIST } from '../../common/routes';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Sidebar from './Sidebar';
+import { Divider, Drawer, List } from '@mui/material'
 
 const drawerWidth = 260;
 
@@ -43,9 +46,7 @@ const closedMixin = (theme) => ({
         width: 0,
     },
 });
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Outlet, useNavigate } from 'react-router-dom';
-import Sidebar from './Sidebar';
+
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
