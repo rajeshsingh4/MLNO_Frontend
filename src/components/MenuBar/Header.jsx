@@ -24,6 +24,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import Sidebar from './Sidebar';
 import { Divider, Drawer, List } from '@mui/material'
 
+import AppBreadCrumbs from './AppBreadCrumbs';
+
+
 const drawerWidth = 260;
 
 const openedMixin = (theme) => ({
@@ -47,12 +50,7 @@ const closedMixin = (theme) => ({
     },
 });
 
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import UserService from "../../services/user.service";
-import AuthService from "../../services/auth.service";
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import Sidebar from './Sidebar';
-import AppBreadCrumbs from './AppBreadCrumbs';
+
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
@@ -80,7 +78,7 @@ export default function Header(props) {
 
     React.useEffect(() => {
         const currentUser = AuthService.getCurrentUser();
-        // const menu = UserService.getMenu();
+        const menu = UserService.getMenu();
     }, []);
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
