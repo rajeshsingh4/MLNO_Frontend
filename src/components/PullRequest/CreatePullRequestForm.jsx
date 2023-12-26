@@ -22,11 +22,9 @@ const initialFormData = () => ({
     newValue: "",
     mode: "",
     ipaddress: '127.0.0.0',
+    comment: '',
     cardId: '',
     fileMasterId : '',
-    createdBy: null,
-    modifiedBy: null,
-    userId: null
 });
 
 const CreatePullRequestForm = (props) => {
@@ -37,9 +35,6 @@ const CreatePullRequestForm = (props) => {
         ...initialFormData(),
         cardId: tableData[rowIndex].id,
         fileMasterId: tableData[rowIndex].fileMasterId,
-        createdBy: 1,
-        modifiedBy: 1,
-        userId: 1
     });
 
     const navigate = useNavigate();
@@ -213,6 +208,18 @@ const CreatePullRequestForm = (props) => {
                                     </MenuItem>
                                 ))}
                             </TextField>
+                        </Grid>
+                        <Grid xs={12}>
+                            <TextField
+                                id="outlined-multiline-static"
+                                label="Comment"
+                                name='comment'
+                                multiline
+                                fullWidth
+                                rows={4}
+                                onChange={(e) => handleFormChange(e)}
+                                value={formData.comment}
+                            />
                         </Grid>
                     </Grid>
                 </Box>

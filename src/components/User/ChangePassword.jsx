@@ -53,7 +53,11 @@ const ChangePassword = (props) => {
                 message = changedPassword.data.message;
             } else {
                 type = 'success';
-                message = changedPassword.data.message;
+                message = "Password updated successfully. You'll be logged out in 5sec. Please login again";
+                setTimeout(() => {
+                    localStorage.removeItem('user');
+                    window.location.replace('/login');
+                }, 5000);
             }
         } catch (error) {
             console.error('Error changing password ', error.message);
@@ -77,7 +81,13 @@ const ChangePassword = (props) => {
             <Divider />
             <CardContent>
                 <Grid container spacing={3}>
-                    <InlineAppAlert type={alertMessage.type} message={alertMessage.message} />
+                    {
+                        alertMessage.message !== '' && (
+                            <Grid xs={12}>
+                                <InlineAppAlert type={alertMessage.type} message={alertMessage.message} />
+                            </Grid>
+                        )
+                    }
                     <Grid xs={12} sm={6}>
                         <TextField
                             id="current-password"
