@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Routes, Route, useLocation, useNavigate, Outlet } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate, Outlet, Navigate } from "react-router-dom";
 import AuthService from "./services/auth.service";
 import Header from "./components/MenuBar/Header";
 import Login from "./components/Login";
@@ -86,25 +86,29 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path='/' errorElement={<ErrorBoundary />} element={<Header handleSnackBarOpen={handleSnackBarOpen} />}>
-          <Route index element={<Home />} />
-          <Route path="files" element={<FilesMaster />} />
-          <Route path="files/:id" element={<CardTracks fileDetails={location.state} navigate={navigate} />} />
-          <Route path="file-tat-report" element={<FileTATReport />} />
+          <Route index element={<BureauComparisionDashBoard />} />
           <Route path="bureau-comparision" element={<BureauComparisionDashBoard />} />
+          <Route path="files" element={<Outlet context={[handleSnackBarOpen]} />}>
+            <Route index element={<FilesMaster />} />
+            <Route path=":id" element={<CardTracks fileDetails={location.state} navigate={navigate} />} />
+          </Route>
+          <Route path="file-tat-report" element={<FileTATReport />} />
           <Route path="bureau-reports" element={<BureauReportDashboard />} />
           <Route path="pull-request" element={<Outlet context={[handleSnackBarOpen]} />}>
-            <Route index element={<CreatePullRequestList />} />
+            <Route index element={<Navigate to='create' replace />} />
             <Route path='create' element={<CreatePullRequestList />} />
             <Route path='manage' element={<PullRequestList />} />
             <Route path='view' element={<Outlet context={[handleSnackBarOpen]} />}>
+              <Route index element={<Navigate to='/pull-request/manage' replace />} />
               <Route path=':id' element={<ViewPullRequestDetails />} />
             </Route>
           </Route>
           <Route path="bureau-pull-request" element={<Outlet context={[handleSnackBarOpen]} />}>
             {/* <Route path='create' index element={<CreatePullRequestList />} /> */}
-            <Route index element={<PullRequestList />} />
+            <Route index element={<Navigate to='manage' replace />} />
             <Route path='manage' element={<PullRequestList />} />
             <Route path='view' element={<Outlet context={[handleSnackBarOpen]} />}>
+              <Route index element={<Navigate to='/bureau-pull-request/manage' replace />} />
               <Route path=':id' element={<ViewPullRequestDetails />} />
             </Route>
           </Route>
@@ -112,6 +116,7 @@ const App = () => {
           <Route path="admin" element={<BoardAdmin />} />
           <Route path="user" element={<BoardUser />} />
           <Route path="mod" element={<BoardModerator />} />
+          <Route path='/home' element={<Home />} />
         </Route>
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
