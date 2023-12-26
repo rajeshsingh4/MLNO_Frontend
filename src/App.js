@@ -13,7 +13,6 @@ import BoardAdmin from "./components/BoardAdmin";
 import CardTracks from "./components/CardTrack/CardTracks";
 import BureauComparisionDashBoard from "./components/BureauComparision/BureauComparisionDashBoard"
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import EventBus from "./common/EventBus";
 import { FilesMaster } from "./components/BureauFileListing/FilesMaster";
 import { FileTATReport } from "./components/BureauFileListing/FileTATReport";
 import { BureauReportDashboard } from "./components/BureauDashboard/BureauReportDashboard";
@@ -43,22 +42,7 @@ const App = () => {
       setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
       setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
     }
-
-    EventBus.on("logout", () => {
-      logOut();
-    });
-
-    return () => {
-      EventBus.remove("logout");
-    };
   }, []);
-
-  const logOut = () => {
-    AuthService.logout();
-    setShowModeratorBoard(false);
-    setShowAdminBoard(false);
-    setCurrentUser(undefined);
-  };
 
   const handleSnackBarOpen = (type, message) => {
     setSnackBarOpen({

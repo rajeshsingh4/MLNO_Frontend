@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import AuthService from "../../services/auth.service";
 import PersonalDetails from "./PersonalDetails";
 import ChangePassword from "./ChangePassword";
+import SkeletonLoader from "../../common/SkeletonLoader";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -30,15 +31,45 @@ function a11yProps(index) {
 }
 
 const Profile = () => {
-  const currentUser = AuthService.getCurrentUser();
-
+  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUserLoader, setCurrentUserLoader] = React.useState(true);
+  const [currentUserError, setCurrentUserError] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
-  if (!currentUser) {
-    return <>User Not Found....</>;
+  const getUserDetails = async () => {
+    try {
+      setCurrentUserLoader(true);
+      const userDetails = await AuthService.getCurrentUserDetails();
+      if (userDetails.status === 200) {
+        setCurrentUser(userDetails.data);
+      } else {
+        setCurrentUserError(true);
+      }
+    } catch (err) {
+      console.error('error getting user details', err.message);
+      setCurrentUserError(true);
+    } finally {
+      setCurrentUserLoader(false);
+    }
   }
 
-  const handleChange = (event, newValue) => {
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+  
+  if (currentUserLoader) {
+    return <SkeletonLoader count={15} />
+  }
+
+  if (currentUserError) {
+    return <>There was an error fetching user details....</>;
+  }
+
+  if (!currentUser) {
+    return <>User details not found!!</>
+  }
+
+  const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
 
@@ -51,7 +82,7 @@ const Profile = () => {
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={value}
-            onChange={handleChange}
+            onChange={handleTabChange}
             aria-label="basic tabs example"
           >
             <Tab label="Profile" {...a11yProps(0)} />

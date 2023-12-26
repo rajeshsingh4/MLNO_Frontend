@@ -74,7 +74,8 @@ export default function Header(props) {
 
     const handleLogout = () => {
         handleCloseUserMenu();
-        navigate('/login', { replace: true });
+        localStorage.removeItem("user");
+        window.location.replace('/login');
     }
 
     return (

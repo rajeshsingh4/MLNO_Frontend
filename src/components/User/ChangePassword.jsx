@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -8,12 +8,18 @@ import Button from '@mui/material/Button';
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
+import AuthService from "../../services/auth.service";
+import InlineAppAlert from "../../common/InlineAppAlert";
 
 const ChangePassword = (props) => {
     const [passwordForm, setPasswordForm] = React.useState({
         currentPassword: '',
         newPassword: '',
         confirmPassword: ''
+    });
+    const [alertMessage, setAlertMessage] = useState({
+        type: 'info',
+        message: ''
     });
 
     const handlePasswordChange = (e) => {
@@ -25,7 +31,7 @@ const ChangePassword = (props) => {
         });
     }
 
-    const handlePasswordUpdate = () => {
+    const handlePasswordUpdate = async () => {
         console.log('formData', passwordForm);
         if (!passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword) {
             return;
@@ -34,7 +40,29 @@ const ChangePassword = (props) => {
             console.error('Passwords do not match');
             return;
         }
-        // API integration
+        let type = 'error', message = '';
+        try {
+            const changedPassword = await AuthService.changePassword(passwordForm);
+            if (changedPassword.status === 401) {
+                if (changedPassword.data.invalidPassword || !changedPassword.data.passwordMatch) {
+                    message = changedPassword.data.message;
+                } else {
+                    message = 'Unable to change password';
+                }
+            } else if (changedPassword.status === 400) {
+                message = changedPassword.data.message;
+            } else {
+                type = 'success';
+                message = changedPassword.data.message;
+            }
+        } catch (error) {
+            console.error('Error changing password ', error.message);
+            message = error.message;
+        } finally {
+            setAlertMessage({
+                type, message
+            });
+        }
     }
 
     return (
@@ -49,6 +77,7 @@ const ChangePassword = (props) => {
             <Divider />
             <CardContent>
                 <Grid container spacing={3}>
+                    <InlineAppAlert type={alertMessage.type} message={alertMessage.message} />
                     <Grid xs={12} sm={6}>
                         <TextField
                             id="current-password"

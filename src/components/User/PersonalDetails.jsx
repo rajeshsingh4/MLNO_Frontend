@@ -19,6 +19,7 @@ import TableCell from "@mui/material/TableCell";
 
 const PersonalDetails = (props) => {
     const { currentUser } = props;
+    const { user } = currentUser;
     return (
         <Grid container spacing={2}>
             <Grid xs={12} sm={3} className="user-details-section">
@@ -29,10 +30,10 @@ const PersonalDetails = (props) => {
                                 sx={{ bgcolor: red[500] }}
                                 aria-label="user-profile"
                             >
-                                {currentUser.username.substring(0, 1).toUpperCase()}
+                                {user.username.substring(0, 1).toUpperCase()}
                             </Avatar>
                         }
-                        title={currentUser.username}
+                        title={user.username}
                         subheader={"September 14, 2016"}
                     />
                     <Divider />
@@ -47,7 +48,7 @@ const PersonalDetails = (props) => {
                         >
                             <ListItem
                                 secondaryAction={
-                                    <Typography>{currentUser.username}</Typography>
+                                    <Typography>{user.username}</Typography>
                                 }
                                 disablePadding
                             >
@@ -58,7 +59,7 @@ const PersonalDetails = (props) => {
                             <Divider />
                             <ListItem
                                 secondaryAction={
-                                    <Typography>{currentUser.email}</Typography>
+                                    <Typography>{user.email}</Typography>
                                 }
                                 disablePadding
                             >
@@ -81,10 +82,7 @@ const PersonalDetails = (props) => {
                             <ListItem
                                 secondaryAction={
                                     <ul>
-                                        {currentUser.roles &&
-                                            currentUser.roles.map((role, index) => (
-                                                <li key={index}>{role}</li>
-                                            ))}
+                                        {currentUser.roles && currentUser.roles.map((role, index) => (<li key={index}>{role}</li>))}
                                     </ul>
                                 }
                                 disablePadding
@@ -123,7 +121,7 @@ const PersonalDetails = (props) => {
                                 >
                                     <TableRow>
                                         <TableCell>Full Name</TableCell>
-                                        <TableCell>{currentUser.fullName}</TableCell>
+                                        <TableCell>{`${currentUser.firstname}${currentUser.middlename ? `${currentUser.middlename}` : ''} ${currentUser.lastname}`}</TableCell>
                                     </TableRow>
                                     <TableRow>
                                         <TableCell>Address</TableCell>
@@ -135,7 +133,7 @@ const PersonalDetails = (props) => {
                                     </TableRow>
                                     <TableRow>
                                         <TableCell>Email</TableCell>
-                                        <TableCell>{currentUser.email}</TableCell>
+                                        <TableCell>{user.email}</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
