@@ -7,8 +7,16 @@ import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 import TableRow from '@mui/material/TableRow';
 import { useParams } from 'react-router-dom';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SkeletonLoader from '../../common/SkeletonLoader';
 import PullRequestService from '../../services/pull-request.service';
+import PullRequestActivityTimeline from './PullRequestActivityTimeline';
 
 const ViewPullRequestDetails = (props) => {
     const [pullRequestDetailsLoader, setPullRequestDetailsLoader] = React.useState(true);
@@ -146,6 +154,22 @@ const ViewPullRequestDetails = (props) => {
                     // checkboxSelection
                 />
             </TableContainer>
+            <Accordion sx={{ mt: 2 }}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography>Pull Request Activity Timeline</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Card elevation={0}>
+                        <CardContent>
+                            <PullRequestActivityTimeline {...pullRequestDetails} />
+                        </CardContent>
+                    </Card>
+                </AccordionDetails>
+            </Accordion>
         </>
     );
 }
