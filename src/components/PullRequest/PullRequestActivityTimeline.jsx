@@ -22,7 +22,7 @@ export default function PullRequestActivityTimeline(props) {
     const getCardTrackingLogs = async () => {
         setCardActivityLoader(true);
         try {
-            const pullrequestTimelineLogs = await PullRequestLogService.getPullRequestLogsListByCardId(props.cardId);
+            const pullrequestTimelineLogs = await PullRequestLogService.getPullRequestLogsListByQueryParams(`pullRequestId=${props.id}`);
             setPullRequestActivityLogs(pullrequestTimelineLogs.data);
         } catch (err) {
             console.error("Error fetching list of pull request activity logs ", err);

@@ -7,8 +7,8 @@ const getPullRequestLogsList = () => {
   return axios.get(PULL_REQUEST_LOG_URL + "all", { headers: authHeader() });
 };
 
-const getPullRequestLogsListByCardId = (cardId) => {
-  return axios.get(`${PULL_REQUEST_LOG_URL}all?cardId=${cardId}`, { headers: authHeader() });
+const getPullRequestLogsListByQueryParams = (query) => {
+  return axios.get(`${PULL_REQUEST_LOG_URL}all?${query}`, { headers: authHeader() });
 };
 
 const getPullRequestLogById = (id) => {
@@ -18,7 +18,7 @@ const getPullRequestLogById = (id) => {
 const AuditLogService = {
     getPullRequestLogsList,
     getPullRequestLogById,
-    getPullRequestLogsListByCardId
+    getPullRequestLogsListByQueryParams
 };
 
 export default AuditLogService;
