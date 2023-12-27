@@ -9,19 +9,21 @@ import { useNavigate } from 'react-router-dom';
 import SkeletonLoader from "../../common/SkeletonLoader";
 import PullRequestService from '../../services/pull-request.service';
 import { actionListMap, modeLsitMap, pullRequestStatusColorMap, pullRequestStatusMap } from '../../common/constants';
+import BureauPullRequestConfirmationDialog from './BureauPullRequestConfirmationDialog';
 
 const BureauPullRequestList = (props) => {
     const [pullRequestLoader, setPullRequestLoader] = React.useState(false);
     const [pullRequestListError, setPullRequestListError] = React.useState(false);
     const [pullRequestList, setPullRequestList] = React.useState([]);
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [confirmDialogOpen, setConfirmDialogOpen] = React.useState(false);
 
     const navigate = useNavigate();
 
     const getPullRequestList = async () => {
         setPullRequestLoader(true);
         try {
-            const pullRequestResp = await PullRequestService.getPullRequest();
+            const pullRequestResp = await PullRequestService.getPullRequest('bureau=BureauName_c');
             setPullRequestList(pullRequestResp.data);
         } catch (err) {
             console.error("Error fetching list of pull requests", err);
@@ -50,8 +52,15 @@ const BureauPullRequestList = (props) => {
     }
 
     const handleBureauAction = (pullId, cardData) => {
-        console.log('handleAction');
-    }
+        setConfirmDialogOpen({
+            pullId, cardData
+        });
+        handleMenuClose();
+    };
+    
+    const handleCloseConfirmDialog = () => {
+        setConfirmDialogOpen(null);
+    };
 
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -66,7 +75,7 @@ const BureauPullRequestList = (props) => {
             return [];
         }
         let columns = [];
-        const hiddenColumns = ['changeCommunicatedTo', 'updatedAt', 'fileMasterId', 'createdBy', 'modifiedBy', 'cardId', 'ipaddress', 'serviceRequest'];
+        const hiddenColumns = ['changeCommunicatedTo', 'updatedAt', 'fileMasterId', 'createdBy', 'modifiedBy', 'cardId', 'ipaddress', 'serviceRequest', 'fileMaster'];
         const rowFieldKeys = Object.keys(row);
         rowFieldKeys.forEach(key => {
             const basicColumnFields = {
@@ -168,6 +177,11 @@ const BureauPullRequestList = (props) => {
                 pageSizeOptions={[10, 20, 50, 100]}
                 // checkboxSelection
             />
+            {
+                confirmDialogOpen && (
+                    <BureauPullRequestConfirmationDialog {...confirmDialogOpen} getPullRequestList={getPullRequestList} handleClose={handleCloseConfirmDialog} />
+                )
+            }
         </>
     );
 }

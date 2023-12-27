@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -11,9 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import { Outlet, useLocation,useNavigate } from 'react-router-dom';
-import UserService from "../../services/user.service";
-import AuthService from "../../services/auth.service";
+import { Outlet, useNavigate } from 'react-router-dom';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Sidebar from './Sidebar';
 import AppBreadCrumbs from './AppBreadCrumbs';
@@ -37,17 +35,8 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function Header(props) {
-    const [open, setOpen] = React.useState(false);
-    const [menuList, setMenuList] = React.useState([]);
-    const location = useLocation();
-    // const currentUser = AuthService.getCurrentUser();
-
-    React.useEffect(() => {
-        const currentUser = AuthService.getCurrentUser();
-        const menu = UserService.getMenu();
-    }, []);
-
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [open, setOpen] = useState(false);
+    const [anchorElUser, setAnchorElUser] = useState(null);
 
     const navigate = useNavigate();
 
