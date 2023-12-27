@@ -103,3 +103,17 @@ export const breadcrumbNameMap = {
     '/bureau-pull-request/view': 'View Pull Request Details',
     '/bureau-pull-request/view/:id': 'View Pull Request',
 };
+
+export const pullRequestStatusMap = {
+    '0': 'Create',
+    '1': 'Complete',
+    '2': 'Reject',
+    '3': 'Delete'
+};
+
+export const pullRequestStatusColorMap = {
+    '0': 'default',
+    '1': 'success',
+    '2': 'warning',
+    '3': 'error'
+}

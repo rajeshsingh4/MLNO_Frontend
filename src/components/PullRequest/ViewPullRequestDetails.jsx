@@ -13,10 +13,12 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SkeletonLoader from '../../common/SkeletonLoader';
 import PullRequestService from '../../services/pull-request.service';
 import PullRequestActivityTimeline from './PullRequestActivityTimeline';
+import { pullRequestStatusColorMap, pullRequestStatusMap } from '../../common/constants';
 
 const ViewPullRequestDetails = (props) => {
     const [pullRequestDetailsLoader, setPullRequestDetailsLoader] = React.useState(true);
@@ -85,7 +87,7 @@ const ViewPullRequestDetails = (props) => {
 
     return (
         <>
-            <TableContainer >
+            <TableContainer>
                 <Table>
                     <TableBody>
                         <TableRow>
@@ -127,6 +129,10 @@ const ViewPullRequestDetails = (props) => {
                         <TableRow>
                             <TableCell>Mode of Communication</TableCell>
                             <TableCell>{pullRequestDetails.mode}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Status</TableCell>
+                            <TableCell><Chip size='small' label={pullRequestStatusMap[pullRequestDetails.status]} color={pullRequestStatusColorMap[pullRequestDetails.status]} /></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>IP Address</TableCell>

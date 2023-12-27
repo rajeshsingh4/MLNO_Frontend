@@ -1,10 +1,11 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
 import { useNavigate } from 'react-router-dom';
 import SkeletonLoader from "../../common/SkeletonLoader";
-import { actionListMap, modeLsitMap } from '../../common/constants';
 import PullRequestService from '../../services/pull-request.service';
+import { actionListMap, modeLsitMap, pullRequestStatusColorMap, pullRequestStatusMap } from '../../common/constants';
 
 const PullRequestList = (props) => {
     const [pullRequestLoader, setPullRequestLoader] = React.useState(false);
@@ -105,6 +106,11 @@ const PullRequestList = (props) => {
                 basicColumnFields.headerName = 'Date & Time';
                 basicColumnFields.description = 'Date & Time';
                 basicColumnFields.valueGetter = (params) => (new Date(params.row.createdAt)).toLocaleString();
+            }
+            if (key === 'status') {
+                basicColumnFields.headerName = 'Status';
+                basicColumnFields.description = 'Status';
+                basicColumnFields.renderCell = (params) => <Chip label={pullRequestStatusMap[params.row.status]} size='small' color={pullRequestStatusColorMap[params.row.status]} />
             }
             if (key === 'userId') {
                 basicColumnFields.headerName = 'View Details';
