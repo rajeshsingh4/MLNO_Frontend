@@ -52,14 +52,14 @@ export const ROUTES_LIST = [
     {
         title: 'Banker Pull Request',
         description: 'Banker creates/views pull request',
-        label: 'Pull Request',
+        label: 'Bank Pull Request',
         defaultColor: 'inherit',
         deafultBgColor: '#ffffff',
         childRoutes: [
             {
                 title: 'Create Pull Request',
                 label: 'Create Pull Request',
-                path: '/pull-request/create',
+                path: '/bank-pull-request/create',
                 index: true,
                 exact: true,
                 defaultColor: 'inherit',
@@ -70,7 +70,7 @@ export const ROUTES_LIST = [
             {
                 title: 'Manage Pull Request',
                 label: 'Manage Pull Request',
-                path: '/pull-request/manage',
+                path: '/bank-pull-request/manage',
                 exact: true,
                 defaultColor: 'inherit',
                 deafultBgColor: '#ffffff',
@@ -80,7 +80,7 @@ export const ROUTES_LIST = [
             {
                 title: 'View Pull Request',
                 label: 'View Pull Request',
-                path: '/pull-request/view/:id',
+                path: '/bank-pull-request/view/:id',
                 hidden: true,
                 defaultColor: 'inherit',
                 deafultBgColor: '#ffffff',

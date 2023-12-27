@@ -3,8 +3,8 @@ import authHeader from './auth-header';
 
 const PULL_REQUEST_URL = `${process.env.REACT_APP_URL}/api/pull-request/`;
 
-const getPullRequest = () => {
-  return axios.get(PULL_REQUEST_URL + "all", { headers: authHeader() });
+const getPullRequest = (query) => {
+  return axios.get(PULL_REQUEST_URL + `all${query ? `?${query}` : ''}`, { headers: authHeader() });
 };
 
 const getPullRequestById = (pullReqId) => {

@@ -16,10 +16,11 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { FilesMaster } from "./components/BureauFileListing/FilesMaster";
 import { FileTATReport } from "./components/BureauFileListing/FileTATReport";
 import { BureauReportDashboard } from "./components/BureauDashboard/BureauReportDashboard";
-import CreatePullRequestList from "./components/PullRequest/CreatePullRequestList";
-import PullRequestList from "./components/PullRequest/PullRequestList";
-import ViewPullRequestDetails from "./components/PullRequest/ViewPullRequestDetails";
+import CreatePullRequestList from "./components/BankPullRequest/CreatePullRequestList";
+import PullRequestList from "./components/BankPullRequest/BankPullRequestList";
+import ViewPullRequestDetails from "./components/BankPullRequest/ViewPullRequestDetails";
 import SnackbarMessage from "./common/SnackbarMessage";
+import BureauPullRequestList from "./components/BureauPullRequest/BureauPullRequestList";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -78,7 +79,7 @@ const App = () => {
           </Route>
           <Route path="file-tat-report" element={<FileTATReport />} />
           <Route path="bureau-reports" element={<BureauReportDashboard />} />
-          <Route path="pull-request" element={<Outlet context={[handleSnackBarOpen]} />}>
+          <Route path="bank-pull-request" element={<Outlet context={[handleSnackBarOpen]} />}>
             <Route index element={<Navigate to='create' replace />} />
             <Route path='create' element={<CreatePullRequestList />} />
             <Route path='manage' element={<PullRequestList />} />
@@ -90,7 +91,7 @@ const App = () => {
           <Route path="bureau-pull-request" element={<Outlet context={[handleSnackBarOpen]} />}>
             {/* <Route path='create' index element={<CreatePullRequestList />} /> */}
             <Route index element={<Navigate to='manage' replace />} />
-            <Route path='manage' element={<PullRequestList />} />
+            <Route path='manage' element={<BureauPullRequestList />} />
             <Route path='view' element={<Outlet context={[handleSnackBarOpen]} />}>
               <Route index element={<Navigate to='/bureau-pull-request/manage' replace />} />
               <Route path=':id' element={<ViewPullRequestDetails />} />

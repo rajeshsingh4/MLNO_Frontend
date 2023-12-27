@@ -15,7 +15,7 @@ const CreatePullRequestList = (props) => {
     const getCardListForPullRequest = async () => {
         setCardListLoader(true);
         try {
-            const cardDetails = await CardTrackingService.getAllCardsWithFileDeatils();
+            const cardDetails = await CardTrackingService.getAllCardsWithFileDeatils('bank=HDFC');
             setCardList(cardDetails.data);
         } catch (err) {
             console.error("Error fetching list of cards for creating pull-request ", err);

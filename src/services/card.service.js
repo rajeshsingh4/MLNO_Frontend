@@ -11,8 +11,8 @@ const updateCardTrackingList = (id, data) => {
   return axios.put(CARD_URL + id, data, { headers: authHeader() });
 };
 
-const getAllCardsWithFileDeatils = () => {
-  return axios.get(CARD_URL + 'all?fileList=true', { headers: authHeader() });
+const getAllCardsWithFileDeatils = (query) => {
+  return axios.get(CARD_URL + `all?fileList=true&${query}`, { headers: authHeader() });
 };
 
 const CardTrackingService = {
