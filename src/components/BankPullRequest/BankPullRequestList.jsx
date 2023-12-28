@@ -1,16 +1,23 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Chip from '@mui/material/Chip';
 import { useNavigate } from 'react-router-dom';
 import SkeletonLoader from "../../common/SkeletonLoader";
 import PullRequestService from '../../services/pull-request.service';
 import { actionListMap, modeLsitMap, pullRequestStatusColorMap, pullRequestStatusMap } from '../../common/constants';
+import BankPullRequestConfirmationDialog from './BankPullRequestConfirmation';
 
 const BankPullRequestList = (props) => {
     const [pullRequestLoader, setPullRequestLoader] = React.useState(false);
     const [pullRequestListError, setPullRequestListError] = React.useState(false);
     const [pullRequestList, setPullRequestList] = React.useState([]);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [confirmDialogOpen, setConfirmDialogOpen] = React.useState(false);
+
     const navigate = useNavigate();
 
     const getPullRequestList = async () => {
@@ -41,8 +48,27 @@ const BankPullRequestList = (props) => {
     }
 
     const viewRequestDetails = (pullId, cardData) => {
-        navigate(`/pull-request/view/${pullId}`, { state: cardData });
+        navigate(`/bank-pull-request/view/${pullId}`, { state: cardData });
     }
+
+    const handleBureauAction = (pullId, cardData) => {
+        setConfirmDialogOpen({
+            pullId, cardData
+        });
+        handleMenuClose();
+    };
+    
+    const handleCloseConfirmDialog = () => {
+        setConfirmDialogOpen(null);
+    };
+
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
     
     const getColumnMapping = (row) => {
         if (!row || (row && row.length === 0)) {
@@ -66,8 +92,8 @@ const BankPullRequestList = (props) => {
                 basicColumnFields.width = 80;
             }
             if (key === 'action') {
-                basicColumnFields.headerName = 'Action';
-                basicColumnFields.description = 'Action';
+                basicColumnFields.headerName = 'Action Type';
+                basicColumnFields.description = 'Action Type';
                 basicColumnFields.valueGetter = (params) => actionListMap[params.row.action] || params.row.action;
             }
             if (key === 'changeCommunicatedTo') {
@@ -113,10 +139,33 @@ const BankPullRequestList = (props) => {
                 basicColumnFields.renderCell = (params) => <Chip label={pullRequestStatusMap[params.row.status]} size='small' color={pullRequestStatusColorMap[params.row.status]} />
             }
             if (key === 'userId') {
-                basicColumnFields.headerName = 'View Details';
-                basicColumnFields.description = 'View Details';
+                basicColumnFields.headerName = 'Action';
+                basicColumnFields.description = 'Action';
                 basicColumnFields.sortable = false;
-                basicColumnFields.renderCell = (params) => <Button variant="contained" disableElevation onClick={() => viewRequestDetails(params.row.id, params.row)}>View Details</Button>
+                basicColumnFields.renderCell = (params) => <>
+                    <IconButton
+                        aria-label="more"
+                        id={`${params.row.id}-icon`}
+                        aria-controls={Boolean(anchorEl) ? `${params.row.id}-icon` : undefined}
+                        aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
+                        aria-haspopup="true"
+                        onClick={handleMenuOpen}
+                    >
+                        <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                        id={`${params.row.id}-menu`}
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleMenuClose}
+                        MenuListProps={{
+                            'aria-labelledby': `${params.row.id}-icon`,
+                        }}
+                    >
+                        <MenuItem onClick={() => viewRequestDetails(params.row.id, params.row)}>View Details</MenuItem>
+                        <MenuItem onClick={() => handleBureauAction(params.row.id, params.row)}>Action</MenuItem>
+                    </Menu>
+                </>
             }
             if (!hiddenColumns.includes(key)) {
                 columns.push(basicColumnFields);
@@ -140,6 +189,11 @@ const BankPullRequestList = (props) => {
                 pageSizeOptions={[10, 20, 50, 100]}
                 // checkboxSelection
             />
+            {
+                confirmDialogOpen && (
+                    <BankPullRequestConfirmationDialog {...confirmDialogOpen} getPullRequestList={getPullRequestList} handleClose={handleCloseConfirmDialog} />
+                )
+            }
         </>
     );
 }

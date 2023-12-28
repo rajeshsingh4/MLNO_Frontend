@@ -110,7 +110,7 @@ const App = () => {
             <Route path='create' element={<CreatePullRequestList />} />
             <Route path='manage' element={<PullRequestList />} />
             <Route path='view' element={<Outlet context={[handleSnackBarOpen, currentUser]} />}>
-              <Route index element={<Navigate to='/pull-request/manage' replace />} />
+              <Route index element={<Navigate to='/bank-pull-request/manage' replace />} />
               <Route path=':id' element={<ViewPullRequestDetails />} />
             </Route>
           </Route>
